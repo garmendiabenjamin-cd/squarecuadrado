@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picks - Recommendations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display&display=swap" rel="stylesheet">
+</head>
+<body class="recommendations-masonry-page">
+    <!-- Header with navigation -->
+    <header class="masonry-header">
+        <nav class="masonry-nav-container">
+            <div class="masonry-nav-left"></div>
+            <div class="masonry-nav-center">
+                <a href="index.html" class="nav-circle-link">
+                    <div class="nav-circle"></div>
+                </a>
+            </div>
+            <div class="masonry-nav-right">
+                <a href="thoughts.html" class="masonry-nav-item">thoughts</a>
+                <a href="recommendations.html" class="masonry-nav-item active">picks</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="masonry-layout">
+        <div class="masonry-layout-inner">
+            <!-- Page Title -->
+            <div class="masonry-title-section">
+                <h1 class="masonry-title">picks</h1>
+            </div>
+
+            <!-- Content Area -->
+            <div class="masonry-content-wrapper">
+                <!-- Sidebar -->
+                <aside class="masonry-sidebar">
+                <nav class="masonry-filter">
+                    <button class="masonry-filter-btn active" data-filter="all">All</button>
+                    <button class="masonry-filter-btn" data-filter="madrid">Madrid</button>
+                    <button class="masonry-filter-btn" data-filter="lima">Lima</button>
+                    <button class="masonry-filter-btn" data-filter="ciudad-de-mexico">Ciudad de México</button>
+                    <button class="masonry-filter-btn" data-filter="san-francisco">San Francisco</button>
+                    <button class="masonry-filter-btn" data-filter="buenos-aires">Buenos Aires</button>
+                </nav>
+            </aside>
+
+            <!-- Masonry Grid -->
+            <main class="masonry-grid-container">
+                <div class="masonry-grid">
+                    <!-- Column 1 -->
+                    <div class="masonry-column">
+                        <!-- Product Card 1 -->
+                        <a href="lululemon-metal-vent-tech.html" class="masonry-card portrait product-card" data-location="madrid">
+                            <img src="images/recommendations/lululemon-model.png" alt="Madrid's Hotel Totem">
+                            <div class="masonry-card-info">
+                                <h3>Madrid's Hotel Totem</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 2 -->
+                        <a href="#" class="masonry-card landscape" data-location="buenos-aires">
+                            <img src="images/gallery/portrait/chessinbluebottle.png" alt="Buenos Aires' Casa Lucia">
+                            <div class="masonry-card-info">
+                                <h3>Buenos Aires' Casa Lucia</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 3 -->
+                        <a href="#" class="masonry-card portrait product-card" data-location="madrid">
+                            <img src="images/recommendations/lululemon-model.png" alt="Madrid's Hotel Totem">
+                            <div class="masonry-card-info">
+                                <h3>Madrid's Hotel Totem</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 4 - Landscape -->
+                        <a href="#" class="masonry-card landscape" data-location="san-francisco">
+                            <img src="images/hotels/hotelone.png" alt="Lima's Hotel B">
+                            <div class="masonry-card-info">
+                                <h3>Lima's Hotel B</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 5 -->
+                        <a href="#" class="masonry-card landscape" data-location="san-francisco">
+                            <img src="images/gallery/portrait/chessinbluebottle.png" alt="San Francisco's Hotel 1">
+                            <div class="masonry-card-info">
+                                <h3>San Francisco's Hotel 1</h3>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="masonry-column">
+                        <!-- Product Card 6 -->
+                        <a href="#" class="masonry-card landscape" data-location="buenos-aires">
+                            <img src="images/gallery/portrait/downtownSF.png" alt="Buenos Aires' Park Duhau">
+                            <div class="masonry-card-info">
+                                <h3>Buenos Aires' Park Duhau</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 7 -->
+                        <a href="#" class="masonry-card portrait product-card" data-location="madrid">
+                            <img src="images/recommendations/lululemon-model.png" alt="Madrid's Hotel Totem">
+                            <div class="masonry-card-info">
+                                <h3>Madrid's Hotel Totem</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 8 - Landscape -->
+                        <a href="#" class="masonry-card landscape" data-location="lima">
+                            <img src="images/hotels/lima-belmond.png" alt="Lima's Belmond Miraflores Park">
+                            <div class="masonry-card-info">
+                                <h3>Lima's Hotel Miraflores Park</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 9 - Landscape -->
+                        <a href="#" class="masonry-card landscape" data-location="lima">
+                            <img src="images/hotels/hotelb.png" alt="Lima's Hotel B">
+                            <div class="masonry-card-info">
+                                <h3>Lima's Hotel B</h3>
+                            </div>
+                        </a>
+
+                        <!-- Product Card 10 - Landscape -->
+                        <a href="#" class="masonry-card landscape" data-location="lima">
+                            <img src="images/hotels/casalucia.png" alt="Lima's Belmond Miraflores Park">
+                            <div class="masonry-card-info">
+                                <h3>Lima's Belmond Miraflores Park</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </main>
+        </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

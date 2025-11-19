@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio & Travel Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="masonry-header hero-header">
+        <nav class="masonry-nav-container">
+            <div class="masonry-nav-left"></div>
+            <div class="masonry-nav-center">
+                <a href="index.html" class="nav-circle-link">
+                    <div class="nav-circle"></div>
+                </a>
+            </div>
+            <div class="masonry-nav-right">
+                <a href="thoughts.html" class="masonry-nav-item">thoughts</a>
+                <a href="recommendations.html" class="masonry-nav-item">picks</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">ideas, places, and things</h1>
+            <a href="#photography" class="scroll-arrow">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 5 L20 30 M20 30 L12 22 M20 30 L28 22" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Photography Section -->
+    <section id="photography" class="section photography-section">
+        <div class="container">
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Sample photos - replace with your own -->
+                <div class="gallery-item" data-category="landscape">
+                    <div class="gallery-image-wrapper" data-title="MALBA Restaurante" data-caption="Buenos Aires, October 2025">
+                        <img src="images/gallery/landscape/malbarestaurante.jpeg" alt="Restaurante MALBA" loading="lazy">
+                    </div> 
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Madrid Street" data-caption="Madrid, November 2025">
+                        <img src="images/gallery/portrait/madridstreet.jpeg" alt="Street in Justicia, Madrid" loading="lazy">
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Buenos Aires Red Brick" data-caption="Buenos Aires, October 2025">
+                        <img src="images/gallery/portrait/buenosairesredbrick.jpeg" alt="Buenos Aires Red Brick building" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Chiloe Beach" data-caption="Chiloe, January 2024">
+                        <img src="images/gallery/portrait/chiloe.jpeg" alt="Chiloe Beach" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Cafe in Palermo Buenos Aires" data-caption="Buenos Aires, October 2025">
+                        <img src="images/gallery/portrait/palermocafe.jpeg" alt="Cafe in Palermo" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="City Lights" data-caption="San Francisco, February 2025">
+                        <img src="images/gallery/portrait/sanfrancisco.jpeg" alt="Houses in San Francisco" loading="lazy">
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Tiburon" data-caption="Tiburon, California, February 2024">
+                        <img src="images/gallery/portrait/tiburon.png" alt="Houses in Tiburon" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Chess in Blue Bottle" data-caption="San Francisco, California">
+                        <img src="images/gallery/portrait/chessinbluebottle.png" alt="Chess in Blue Bottle" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Downtown SF" data-caption="San Francisco, California">
+                        <img src="images/gallery/portrait/downtownSF.png" alt="Downtown San Francisco" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Ilha Bella" data-caption="Ilha Bella, Brazil">
+                        <img src="images/gallery/portrait/IllhaBella.png" alt="Ilha Bella" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Kabuki" data-caption="San Francisco, California">
+                        <img src="images/gallery/portrait/Kabuki.png" alt="Kabuki" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Piccino" data-caption="San Francisco, California">
+                        <img src="images/gallery/portrait/piccino.png" alt="Piccino" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Serpentine Pavillion" data-caption="London, United Kingdom">
+                        <img src="images/gallery/portrait/SerpentinePavillion.png" alt="Serpentine Pavillion" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="portrait">
+                    <div class="gallery-image-wrapper" data-title="Victorian Houses" data-caption="San Francisco, California">
+                        <img src="images/gallery/portrait/victorianhouses.png" alt="Victorian Houses" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImage">
+            <div class="lightbox-caption" id="lightboxCaption">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>Square Cuadrado. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thoughts - Portfolio & Travel Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display&display=swap" rel="stylesheet">
+</head>
+<body class="thoughts-masonry-page">
+    <!-- Header with navigation -->
+    <header class="masonry-header">
+        <nav class="masonry-nav-container">
+            <div class="masonry-nav-left"></div>
+            <div class="masonry-nav-center">
+                <a href="index.html" class="nav-circle-link">
+                    <div class="nav-circle"></div>
+                </a>
+            </div>
+            <div class="masonry-nav-right">
+                <a href="thoughts.html" class="masonry-nav-item active">thoughts</a>
+                <a href="recommendations.html" class="masonry-nav-item">picks</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="masonry-layout">
+        <div class="masonry-layout-inner">
+            <!-- Page Title -->
+            <div class="masonry-title-section">
+                <h1 class="masonry-title">thoughts</h1>
+            </div>
+
+            <!-- Content Area -->
+            <div class="masonry-content-wrapper">
+                <!-- Sidebar -->
+                <aside class="masonry-sidebar">
+                <nav class="masonry-filter">
+                    <button class="masonry-filter-btn active" data-filter="all">All</button>
+                    <button class="masonry-filter-btn" data-filter="travel">Travel</button>
+                    <button class="masonry-filter-btn" data-filter="culture">Culture</button>
+                    <button class="masonry-filter-btn" data-filter="food">Food</button>
+                    <button class="masonry-filter-btn" data-filter="design">Design</button>
+                    <button class="masonry-filter-btn" data-filter="lifestyle">Lifestyle</button>
+                </nav>
+            </aside>
+
+            <!-- Articles Container -->
+            <main class="thoughts-articles-container">
+                <!-- Article 1 -->
+                <article class="thoughts-article-card" data-category="lifestyle">
+                    <h2 class="thoughts-card-title">What makes a good place to stay at?</h2>
+                    <p class="thoughts-card-text">
+                        A good stay is made up for four different factors: 
+                        i) comfort ii) aesthetics iii) service iv) coexistence 
+                        with it's surroundings. Let's start with the first one: 
+                        comfort. What creates comfort: a place that feels warm, 
+                        no noise, good beds, darkness, good temperature.
+                    </p>
+                    <div class="thoughts-card-image">
+                        <img src="images/thoughts/42968ffdbaf5512247b9d2f2ced0d375724efa54.png" alt="Hotel room">
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="thoughts-article-card thoughts-article-reverse" data-category="design">
+                    <div class="thoughts-card-image">
+                        <img src="images/thoughts/fd2aa668a16f9640603481d9ccf277d9f81780bd.png" alt="Interior design">
+                    </div>
+                    <p class="thoughts-card-text">
+                        A good stay is made up for four different factors: i) comfort ii) aesthetics iii) 
+                        service iv) coexistence with it's surroundings. Let's start with the first one: comfort. 
+                        What creates comfort: a place that feels warm, no noise, good beds, darkness, 
+                        good temperature.
+                    </p>
+                    <h2 class="thoughts-card-title">Creating an atmosphere that connects with its surroundings</h2>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="thoughts-article-card" data-category="travel">
+                    <h2 class="thoughts-card-title">What makes a good place to stay at?</h2>
+                    <p class="thoughts-card-text">
+                        A good stay is made up for four different factors: i) comfort ii) aesthetics iii) 
+                        service iv) coexistence with it's surroundings. Let's start with the first one: 
+                        comfort. What creates comfort: a place that feels warm, no noise, good beds, darkness, 
+                        good temperature.
+                    </p>
+                    <div class="thoughts-card-image">
+                        <img src="images/thoughts/42968ffdbaf5512247b9d2f2ced0d375724efa54.png" alt="Hotel room">
+                    </div>
+            </article>
+        </main>
+    </div>
+    </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

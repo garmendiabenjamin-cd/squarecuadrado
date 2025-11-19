@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SquareCuadrado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .intro-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 280px;
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .video-wrapper {
+                width: 240px;
+                height: 360px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-wrapper {
+                width: 200px;
+                height: 300px;
+            }
+        }
+
+        /* Fade in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hover effect */
+        .video-wrapper {
+            transition: transform 0.3s ease;
+        }
+
+        .video-wrapper:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body onclick="window.location.href='index.html'">
+    <div class="intro-container">
+        <div class="video-wrapper">
+            <video autoplay loop muted playsinline class="intro-video">
+                <source src="images/hero/chess.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</body>
+</html>

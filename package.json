@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-travel-site",
+  "version": "1.0.0",
+  "description": "A beautiful portfolio and travel guide website showcasing photography, writings, and travel recommendations",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000 -o",
+    "dev": "npx http-server -p 8000 -o"
+  },
+  "keywords": [
+    "portfolio",
+    "photography",
+    "travel",
+    "blog",
+    "website",
+    "recommendations"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
+
