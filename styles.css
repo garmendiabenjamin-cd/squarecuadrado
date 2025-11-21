@@ -2970,3 +2970,85 @@ img[loading="lazy"] {
     }
 }
 
+/* ==========================================
+   SQUARED IMAGES LAYOUT (recommendations2.html)
+   ========================================== */
+
+/* Override masonry card styles for squared layout */
+.squared-images .masonry-card {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    height: auto;
+}
+
+/* Image container with square aspect ratio */
+.squared-images .masonry-card .image-container {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #e5e5e5; /* Same as scrolled header */
+}
+
+.squared-images .masonry-card img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* This ensures the entire image is visible */
+}
+
+/* Remove the portrait/landscape specific heights */
+.squared-images .masonry-card.portrait,
+.squared-images .masonry-card.landscape {
+    height: auto; /* Let flex handle the height */
+}
+
+/* Card info below image - always visible */
+.squared-images .masonry-card-info {
+    position: static;
+    background: #e5e5e5;
+    color: #000;
+    padding: 12px 0;
+    transform: none;
+    transition: none;
+}
+
+.squared-images .masonry-card-info h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    color: #000;
+}
+
+/* Remove hover effect for info */
+.squared-images .masonry-card:hover .masonry-card-info {
+    transform: none;
+}
+
+/* Responsive adjustments for squared layout */
+@media (max-width: 850px) {
+    .squared-images .masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 640px) {
+    .squared-images .masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .squared-images .masonry-card-info {
+        padding: 10px;
+        font-size: 0.875rem;
+    }
+}
+

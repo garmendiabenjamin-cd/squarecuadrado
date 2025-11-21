@@ -1,0 +1,72 @@
+{
+  "lastUpdated": "2024-11-21",
+  "picks": [
+    {
+      "id": "hotel-totem-madrid",
+      "name": "Hotel Totem",
+      "location": "Madrid, Spain",
+      "description": "Small beautiful hotel with great modern taste in Salamanca, Madrid.",
+      "image": "images/hotels/totem.webp",
+      "categories": ["hotels"],
+      "tags": ["Boutique", "Design", "Central", "Madrid"],
+      "detailPage": "hotel-totem-madrid.html",
+      "orientation": "portrait",
+      "rating": 5
+    },
+    {
+      "id": "casa-lucia-buenos-aires",
+      "name": "Buenos Aires' Casa Lucia",
+      "location": "Buenos Aires, Argentina",
+      "description": "Stylish, well-designed, five-star hotel in the most charming street of Buenos Aires.",
+      "image": "images/hotels/casalucia.png",
+      "categories": ["hotels"],
+      "rating": 5,
+      "tags": ["Luxury", "Buenos Aires"],
+      "orientation": "landscape"
+    },
+    {
+      "id": "hotel-b-lima",
+      "name": "Hotel B",
+      "location": "Lima, Peru",
+      "description": "Boutique hotel in a restored Belle Époque mansion",
+      "image": "images/hotels/hotelb.png",
+      "categories": ["hotels"],
+      "rating": 5,
+      "tags": ["Boutique", "Historic", "Barranco"],
+      "orientation": "portrait"
+    },
+    {
+      "id": "malba-restaurant",
+      "name": "MALBA Restaurante",
+      "location": "Buenos Aires, Argentina",
+      "description": "Museum restaurant with contemporary Argentine cuisine",
+      "image": "images/gallery/landscape/malbarestaurante.jpeg",
+      "categories": ["restaurants", "cafes"],
+      "rating": 5,
+      "tags": ["Contemporary", "Museum", "Argentine"],
+      "orientation": "landscape"
+    },
+    {
+      "id": "lululemon-metal-vent-tshirt",
+      "name": "Lululemon Metal Vent Tech Short-Sleeve Shirt",
+      "location": "International",
+      "description": "A high-performance basic t-shirt for running, training, and everyday wear.",
+      "image": "images/recommendations/lululemon-model.png",
+      "categories": ["apparel", "wellness-fitness"],
+      "tags": ["Lululemon", "Running", "Performance", "Basic"],
+      "orientation": "portrait",
+      "rating": 5
+    },
+    { 
+      "id": "muji-smooth-retractable-gel-pen-0.5-mm",
+      "name": "MUJI’s Smooth Retractable Gel Pen ‐ 0.5 mm",
+      "location": "International",
+      "description": "A smooth retractable gel pen with a 0.5 mm tip. Transparent and timeless design",
+      "image": "images/recommendations/mujipen.jpg",
+      "categories": ["accessories"],
+      "tags": ["MUJI", "Gel Pen", "0.5 mm"],
+      "orientation": "portrait",
+      "rating": 5
+    }
+  ]
+}

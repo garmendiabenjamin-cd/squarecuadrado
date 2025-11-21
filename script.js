@@ -643,15 +643,18 @@ function initializeMasonryFilter() {
             
             cards.forEach(card => {
                 if (filter === 'all') {
-                    card.style.display = 'flex';
+                    card.style.display = card.classList.contains('masonry-card') ? 'block' : 'flex';
                 } else {
-                    // Check both data-location (for hotels) and data-category (for thoughts)
-                    const location = card.getAttribute('data-location');
-                    const category = card.getAttribute('data-category');
-                    const cardFilter = location || category;
+                    // Check data-categories attribute (can contain multiple categories)
+                    const categories = card.getAttribute('data-categories');
+                    const category = card.getAttribute('data-category'); // for thoughts page
                     
-                    if (cardFilter === filter) {
-                        card.style.display = 'flex';
+                    // Check if the filter matches any of the card's categories
+                    const hasCategory = categories ? categories.split(' ').includes(filter) : false;
+                    const matchesCategory = category === filter;
+                    
+                    if (hasCategory || matchesCategory) {
+                        card.style.display = card.classList.contains('masonry-card') ? 'block' : 'flex';
                     } else {
                         card.style.display = 'none';
                     }
@@ -733,4 +736,144 @@ if (document.querySelector('.masonry-header')) {
 }
 
 console.log('Portfolio & Travel Guide website loaded successfully!');
+
+// ==========================================
+// PICKS DATA LOADING AND RENDERING
+// ==========================================
+
+// Load picks data from JSON
+async function loadPicksData() {
+    try {
+        const response = await fetch('data/picks.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error loading picks data:', error);
+        return null;
+    }
+}
+
+// Render a single pick card
+function renderPickCard(pick) {
+    const cardHtml = `
+        <div class="recommendation-card" data-category="${pick.tags[0]?.toLowerCase() || 'other'}">
+            <div class="recommendation-image">
+                <img src="${pick.image}" alt="${pick.name}" loading="lazy">
+                <span class="recommendation-badge">${pick.rating}/5</span>
+            </div>
+            <div class="recommendation-content">
+                <h3>${pick.name}</h3>
+                <p class="location">${pick.location}</p>
+                <p class="description">${pick.description}</p>
+                <div class="recommendation-tags">
+                    ${pick.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+                ${pick.detailPage ? `<a href="${pick.detailPage}" class="detail-link">View Details →</a>` : ''}
+            </div>
+        </div>
+    `;
+    return cardHtml;
+}
+
+// Render picks for a specific category
+function renderCategoryPicks(categoryData, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Clear existing content
+    container.innerHTML = '';
+    
+    // Render each pick in the category
+    categoryData.items.forEach(pick => {
+        container.innerHTML += renderPickCard(pick);
+    });
+}
+
+// Render a single masonry card
+function renderMasonryCard(pick) {
+    // Join categories for data attribute
+    const categoriesStr = pick.categories ? pick.categories.join(' ') : '';
+    
+    // Check if we're on the squared images page
+    const isSquaredLayout = document.body.classList.contains('squared-images');
+    
+    if (isSquaredLayout) {
+        // Squared layout with image container
+        const cardHtml = `
+            <a href="${pick.detailPage || '#'}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}">
+                <div class="image-container">
+                    <img src="${pick.image}" alt="${pick.name}">
+                </div>
+                <div class="masonry-card-info">
+                    <h3>${pick.name}</h3>
+                </div>
+            </a>
+        `;
+        return cardHtml;
+    } else {
+        // Original layout
+        const cardHtml = `
+            <a href="${pick.detailPage || '#'}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}">
+                <img src="${pick.image}" alt="${pick.name}">
+                <div class="masonry-card-info">
+                    <h3>${pick.name}</h3>
+                </div>
+            </a>
+        `;
+        return cardHtml;
+    }
+}
+
+// Initialize picks on recommendations page
+async function initializePicks() {
+    // Check if we're on the recommendations page
+    const picksGrid = document.getElementById('picks-grid');
+    if (!picksGrid) return;
+    
+    const picksData = await loadPicksData();
+    if (!picksData) {
+        console.error('Failed to load picks data');
+        return;
+    }
+    
+    // Clear existing grid
+    picksGrid.innerHTML = '';
+    
+    // Create masonry columns
+    const numColumns = 2; // You can make this responsive if needed
+    const columns = [];
+    for (let i = 0; i < numColumns; i++) {
+        const column = document.createElement('div');
+        column.className = 'masonry-column';
+        columns.push(column);
+        picksGrid.appendChild(column);
+    }
+    
+    // Distribute picks across columns
+    let columnIndex = 0;
+    if (picksData.picks) {
+        picksData.picks.forEach(pick => {
+            columns[columnIndex].innerHTML += renderMasonryCard(pick);
+            columnIndex = (columnIndex + 1) % numColumns;
+        });
+    }
+    
+    console.log('Picks loaded successfully!');
+    
+    // Re-initialize masonry filters after cards are loaded
+    // Small delay to ensure DOM is updated
+    setTimeout(() => {
+        initializeMasonryFilter();
+    }, 100);
+}
+
+// Initialize picks when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializePicks);
+} else {
+    initializePicks();
+}
 
