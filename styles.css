@@ -451,6 +451,319 @@ a {
     }
 }
 
+/* Slide Sheet Overlay Styles */
+.slide-sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.slide-sheet-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.slide-sheet {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 700px;
+    max-width: 90vw;
+    height: 100%;
+    background: #fffcf1;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow-y: auto;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.slide-sheet-overlay.active .slide-sheet {
+    transform: translateX(0);
+}
+
+.slide-sheet-header {
+    position: sticky;
+    top: 0;
+    background: #fffcf1;
+    padding: 60px 58px 25px;
+    z-index: 10;
+}
+
+.slide-sheet-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slide-sheet-title h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.slide-sheet-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.slide-sheet-close:hover {
+    opacity: 0.7;
+}
+
+.slide-sheet-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.slide-sheet-content {
+    padding: 0 58px 58px;
+}
+
+.slide-sheet-hero-container {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Square aspect ratio */
+    margin-bottom: 40px;
+    background: #F4EDD3;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide-sheet-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+
+/* Flexible slide sheet content styles */
+.slide-sheet-headline {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0.5rem 0 1rem;
+    line-height: 1.4;
+}
+
+.slide-sheet-location {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.slide-sheet-description {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.slide-sheet-rating {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #000;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+.slide-sheet-highlights {
+    margin: 2rem 0;
+}
+
+.slide-sheet-highlights h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.slide-sheet-highlights ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.slide-sheet-highlights li {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #333;
+}
+
+.slide-sheet-highlights li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #000;
+}
+
+.slide-sheet-section {
+    margin: 2rem 0;
+}
+
+.slide-sheet-section h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.slide-sheet-section p {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.slide-sheet-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 1.5rem 0;
+}
+
+.slide-sheet-tag {
+    padding: 6px 12px;
+    background: #f0f0f0;
+    border-radius: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.slide-sheet-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.slide-sheet-button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.slide-sheet-button-primary {
+    background: #000;
+    color: #fff;
+}
+
+.slide-sheet-button-primary:hover {
+    background: #333;
+}
+
+/* Slide sheet specific styles for Figma design */
+.slide-sheet-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+.slide-sheet-text-highlight {
+    font-weight: 500;
+}
+
+.slide-sheet-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.slide-sheet-gallery-item {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Square aspect ratio */
+    background: #F4EDD3;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide-sheet-gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Prevent body scroll when slide sheet is open */
+body.slide-sheet-open {
+    overflow: hidden;
+}
+
+/* Slide Sheet Responsive Styles */
+@media (max-width: 1024px) {
+    .slide-sheet {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .slide-sheet-header {
+        padding: 30px 40px;
+    }
+    
+    .slide-sheet-content {
+        padding: 0 40px 40px;
+    }
+    
+    .slide-sheet-hero-container {
+        margin-bottom: 30px;
+    }
+    
+    .slide-sheet-title h2 {
+        font-size: 2rem;
+    }
+    
+    .slide-sheet-text {
+        font-size: 1rem;
+    }
+    
+    .slide-sheet-gallery {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 /* Writings Section */
 .writings-section {
     background: white;
@@ -3042,8 +3355,8 @@ img[loading="lazy"] {
 
 @media (max-width: 640px) {
     .squared-images .masonry-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
     
     .squared-images .masonry-card-info {

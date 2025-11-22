@@ -67,6 +67,17 @@
       "tags": ["MUJI", "Gel Pen", "0.5 mm"],
       "orientation": "portrait",
       "rating": 5
+    },
+    {
+      "id": "soar-trail-shorts",
+      "name": "SOAR Trail Shorts",
+      "location": "London",
+      "description": "the best shorts to run a marathon in.",
+      "image": "images/recommendations/soar-trail-shorts-3.png",
+      "categories": ["apparel", "wellness-fitness"],
+      "tags": ["soar", "running", "marathon"],
+      "orientation": "portrait",
+      "rating": 5
     }
   ]
 }

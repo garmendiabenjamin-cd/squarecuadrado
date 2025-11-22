@@ -1,0 +1,58 @@
+{
+  "hotel-b-lima": {
+    "customContent": true,
+    "heroImage": "images/recommendations/hotel-b-3.png",
+    "headline": "Boutique luxury in Lima's artistic heart",
+    "subheadline": "What makes it special?",
+    "description": "Housed in a restored 1914 Belle Époque mansion in the bohemian Barranco district, Hotel B offers an intimate luxury experience. This 17-room boutique property seamlessly blends historic architecture with contemporary Peruvian art, creating a unique cultural sanctuary.",
+    "highlights": [
+      "17 uniquely designed rooms and suites",
+      "Rooftop terrace with Pacific Ocean views", 
+      "Walking distance to galleries, cafes, and nightlife",
+      "Curated collection of contemporary Peruvian art",
+      "Historic mansion with original architectural details"
+    ],
+    "galleryImages": [
+      {
+        "src": "images/recommendations/hotel-b-2.png",
+        "alt": "Hotel B Interior"
+      },
+      {
+        "src": "images/recommendations/hotel-b-1.png", 
+        "alt": "Hotel B Room"
+      }
+    ],
+    "additionalSections": [
+      {
+        "title": "Location",
+        "content": "Barranco is Lima's most charming district, known for its colorful colonial architecture, vibrant art scene, and oceanfront location. The hotel is perfectly positioned to explore the area's museums, galleries, and renowned restaurants."
+      }
+    ]
+  },
+  "hotel-totem-madrid": {
+    "customContent": true,
+    "heroImage": "images/hotels/totem.webp",
+    "headline": "Modern design meets Spanish hospitality",
+    "subheadline": "A boutique gem in Salamanca",
+    "description": "Hotel Totem brings a fresh perspective to Madrid's luxury hotel scene. Located in the upscale Salamanca neighborhood, this design-forward property combines sleek modern aesthetics with warm Spanish hospitality.",
+    "highlights": [
+      "Stunning rooftop bar with city views",
+      "Contemporary design by renowned architects",
+      "Prime Salamanca location near luxury shopping",
+      "Intimate size with personalized service"
+    ],
+    "galleryImages": [
+      {
+        "src": "images/hotels/totem.webp",
+        "alt": "Hotel Totem Exterior"
+      }
+    ]
+  },
+  "casa-lucia-buenos-aires": {
+    "customContent": false
+  },
+  "default": {
+    "customContent": false,
+    "description": "Discover what makes this place special. From unique design elements to exceptional service, every detail has been carefully curated to create an unforgettable experience."
+  }
+}

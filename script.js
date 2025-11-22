@@ -756,6 +756,21 @@ async function loadPicksData() {
     }
 }
 
+// Load detailed content for picks
+async function loadPicksDetails() {
+    try {
+        const response = await fetch('data/picks-details.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error loading picks details:', error);
+        return null;
+    }
+}
+
 // Render a single pick card
 function renderPickCard(pick) {
     const cardHtml = `
@@ -800,10 +815,15 @@ function renderMasonryCard(pick) {
     // Check if we're on the squared images page
     const isSquaredLayout = document.body.classList.contains('squared-images');
     
+    // For hotel-b-lima, use slide sheet instead of detail page
+    const isHotelB = pick.id === 'hotel-b-lima';
+    const href = isHotelB ? '#' : (pick.detailPage || '#');
+    const dataPickId = isHotelB ? `data-pick-id="${pick.id}"` : '';
+    
     if (isSquaredLayout) {
         // Squared layout with image container
         const cardHtml = `
-            <a href="${pick.detailPage || '#'}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}">
+            <a href="${href}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}" ${dataPickId}>
                 <div class="image-container">
                     <img src="${pick.image}" alt="${pick.name}">
                 </div>
@@ -816,7 +836,7 @@ function renderMasonryCard(pick) {
     } else {
         // Original layout
         const cardHtml = `
-            <a href="${pick.detailPage || '#'}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}">
+            <a href="${href}" class="masonry-card ${pick.orientation || 'landscape'}" data-categories="${categoriesStr}" ${dataPickId}>
                 <img src="${pick.image}" alt="${pick.name}">
                 <div class="masonry-card-info">
                     <h3>${pick.name}</h3>
@@ -838,6 +858,12 @@ async function initializePicks() {
         console.error('Failed to load picks data');
         return;
     }
+    
+    // Store picks data globally for slide sheet
+    globalPicksData = picksData;
+    
+    // Load picks details
+    globalPicksDetails = await loadPicksDetails();
     
     // Clear existing grid
     picksGrid.innerHTML = '';
@@ -867,6 +893,15 @@ async function initializePicks() {
     // Small delay to ensure DOM is updated
     setTimeout(() => {
         initializeMasonryFilter();
+        
+        // Add click handlers for hotel-b cards
+        const hotelBCards = document.querySelectorAll('[data-pick-id="hotel-b-lima"]');
+        hotelBCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                openSlideSheet('hotel-b-lima');
+            });
+        });
     }, 100);
 }
 
@@ -875,5 +910,186 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializePicks);
 } else {
     initializePicks();
+}
+
+// ==========================================
+// SLIDE SHEET FUNCTIONALITY
+// ==========================================
+
+let globalPicksData = null; // Store picks data globally for slide sheet
+let globalPicksDetails = null; // Store detailed content for picks
+
+function initializeSlideSheet() {
+    const overlay = document.getElementById('slideSheetOverlay');
+    const closeButton = document.getElementById('slideSheetClose');
+    const slideSheet = overlay?.querySelector('.slide-sheet');
+    
+    if (!overlay || !closeButton) return;
+    
+    // Close button handler
+    closeButton.addEventListener('click', closeSlideSheet);
+    
+    // Close on overlay click (but not on slide sheet itself)
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeSlideSheet();
+        }
+    });
+    
+    // Add swipe right to close gesture
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    
+    const handleStart = (e) => {
+        isDragging = true;
+        startX = e.touches ? e.touches[0].clientX : e.clientX;
+        slideSheet.style.transition = 'none';
+    };
+    
+    const handleMove = (e) => {
+        if (!isDragging) return;
+        currentX = e.touches ? e.touches[0].clientX : e.clientX;
+        const deltaX = currentX - startX;
+        if (deltaX > 0) {
+            slideSheet.style.transform = `translateX(${deltaX}px)`;
+        }
+    };
+    
+    const handleEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        slideSheet.style.transition = '';
+        
+        const deltaX = currentX - startX;
+        if (deltaX > 100) {
+            closeSlideSheet();
+        } else {
+            slideSheet.style.transform = '';
+        }
+    };
+    
+    // Touch events
+    slideSheet?.addEventListener('touchstart', handleStart);
+    slideSheet?.addEventListener('touchmove', handleMove);
+    slideSheet?.addEventListener('touchend', handleEnd);
+    
+    // Mouse events (for testing on desktop)
+    slideSheet?.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+    
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+            closeSlideSheet();
+        }
+    });
+}
+
+function openSlideSheet(pickId) {
+    const overlay = document.getElementById('slideSheetOverlay');
+    const pick = globalPicksData?.picks?.find(p => p.id === pickId);
+    
+    if (!overlay || !pick) return;
+    
+    // Populate slide sheet content
+    const titleElement = document.getElementById('slideSheetTitle');
+    const contentElement = document.getElementById('slideSheetContent');
+    
+    titleElement.textContent = pick.name;
+    
+    // Get custom content from picks-details.json
+    const details = globalPicksDetails?.[pickId] || globalPicksDetails?.default || {};
+    
+    let content = '';
+    
+    if (details.customContent) {
+        // Use custom content from picks-details.json
+        content = `
+            <div class="slide-sheet-hero-container">
+                <img src="${details.heroImage || pick.image}" alt="${pick.name}" class="slide-sheet-hero-image">
+            </div>
+            <div class="slide-sheet-text">
+                ${details.subheadline ? `<p><span class="slide-sheet-text-highlight">${details.subheadline}</span></p>` : ''}
+                ${details.headline ? `<p class="slide-sheet-headline">${details.headline}</p>` : ''}
+                ${details.description ? `<p>${details.description}</p>` : ''}
+            </div>
+            ${details.highlights ? `
+                <div class="slide-sheet-highlights">
+                    <h3>Highlights</h3>
+                    <ul>
+                        ${details.highlights.map(highlight => `<li>${highlight}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+            ${details.galleryImages && details.galleryImages.length > 0 ? `
+                <div class="slide-sheet-gallery">
+                    ${details.galleryImages.map(img => `
+                        <div class="slide-sheet-gallery-item">
+                            <img src="${img.src}" alt="${img.alt || pick.name}">
+                        </div>
+                    `).join('')}
+                </div>
+            ` : ''}
+            ${details.additionalSections ? details.additionalSections.map(section => `
+                <div class="slide-sheet-section">
+                    <h3>${section.title}</h3>
+                    <p>${section.content}</p>
+                </div>
+            `).join('') : ''}
+            ${pick.detailPage ? `
+                <div class="slide-sheet-actions">
+                    <a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">View Full Details</a>
+                </div>
+            ` : ''}
+        `;
+    } else {
+        // Default content for picks without custom content
+        content = `
+            <div class="slide-sheet-hero-container">
+                <img src="${pick.image}" alt="${pick.name}" class="slide-sheet-hero-image">
+            </div>
+            <div class="slide-sheet-text">
+                <p class="slide-sheet-location">${pick.location}</p>
+                <p class="slide-sheet-description">${pick.description}</p>
+                <div class="slide-sheet-rating">★ ${pick.rating}/5</div>
+            </div>
+            <div class="slide-sheet-tags">
+                ${pick.tags.map(tag => `<span class="slide-sheet-tag">${tag}</span>`).join('')}
+            </div>
+            ${pick.detailPage ? `
+                <div class="slide-sheet-actions">
+                    <a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">View Full Details</a>
+                </div>
+            ` : ''}
+        `;
+    }
+    
+    contentElement.innerHTML = content;
+    
+    // Show overlay
+    overlay.classList.add('active');
+    document.body.classList.add('slide-sheet-open');
+}
+
+function closeSlideSheet() {
+    const overlay = document.getElementById('slideSheetOverlay');
+    const slideSheet = overlay?.querySelector('.slide-sheet');
+    
+    overlay?.classList.remove('active');
+    document.body.classList.remove('slide-sheet-open');
+    
+    // Reset transform
+    if (slideSheet) {
+        slideSheet.style.transform = '';
+    }
+}
+
+// Initialize slide sheet on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSlideSheet);
+} else {
+    initializeSlideSheet();
 }
 
