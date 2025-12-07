@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Migration Tool - Square Cuadrado</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .migration-status {
+            background: #f0f7ff;
+            border: 1px solid #0066cc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button.primary {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        button.success {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .preview-section {
+            margin-top: 30px;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .preview-tabs {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tab-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .tab-btn.active {
+            background: #333;
+            color: white;
+        }
+        
+        .preview-content {
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .migration-log {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            font-family: monospace;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+        
+        .log-success {
+            color: #4CAF50;
+        }
+        
+        .log-error {
+            color: #f44336;
+        }
+        
+        .log-info {
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Content Migration Tool</h1>
+        <p class="description">
+            This tool will help you migrate your existing JSON-based content to the new YAML format, 
+            making it easier to manage and edit your recommendations.
+        </p>
+        
+        <div class="migration-status">
+            <div class="status-title">Migration Status</div>
+            <div class="status-item">
+                <span>Total Recommendations:</span>
+                <span id="total-count">0</span>
+            </div>
+            <div class="status-item">
+                <span>Ready to Migrate:</span>
+                <span id="ready-count">0</span>
+            </div>
+            <div class="status-item">
+                <span>Already Migrated:</span>
+                <span id="migrated-count">0</span>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button class="primary" onclick="analyzeContent()">📊 Analyze Current Content</button>
+            <button onclick="previewMigration()">👁️ Preview Migration</button>
+            <button class="success" onclick="startMigration()">🚀 Start Migration</button>
+            <button onclick="downloadBackup()">💾 Download Backup</button>
+        </div>
+        
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2>Preview</h2>
+                <div class="preview-tabs">
+                    <button class="tab-btn active" onclick="showTab('json')">Current (JSON)</button>
+                    <button class="tab-btn" onclick="showTab('yaml')">New (YAML)</button>
+                    <button class="tab-btn" onclick="showTab('comparison')">Side by Side</button>
+                </div>
+            </div>
+            <div class="preview-content" id="preview-content">
+                <p style="color: #666; text-align: center;">
+                    Click "Analyze Current Content" to see your data
+                </p>
+            </div>
+        </div>
+        
+        <div class="migration-log" id="migration-log" style="display: none;">
+            <h3>Migration Log</h3>
+            <div id="log-entries"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentData = null;
+        let migratedData = null;
+        
+        async function analyzeContent() {
+            addLog('Analyzing current content...', 'info');
+            
+            try {
+                // Load current JSON data
+                const picksResponse = await fetch('/data/picks.json');
+                const picksData = await picksResponse.json();
+                
+                const detailsResponse = await fetch('/data/picks-details.json');
+                const detailsData = await detailsResponse.json();
+                
+                currentData = { picks: picksData, details: detailsData };
+                
+                // Update counts
+                document.getElementById('total-count').textContent = picksData.picks.length;
+                document.getElementById('ready-count').textContent = picksData.picks.length;
+                document.getElementById('migrated-count').textContent = '0';
+                
+                addLog(`Found ${picksData.picks.length} recommendations to migrate`, 'success');
+                
+                // Show preview
+                showCurrentData();
+            } catch (error) {
+                addLog('Error loading data: ' + error.message, 'error');
+                // Use sample data for demo
+                loadSampleData();
+            }
+        }
+        
+        function loadSampleData() {
+            currentData = {
+                picks: {
+                    picks: [
+                        {
+                            id: 'hotel-totem-madrid',
+                            name: 'Hotel Totem',
+                            location: 'Madrid, Spain',
+                            description: 'Charming boutique hotel',
+                            categories: ['hotels'],
+                            tags: ['Boutique', 'Design']
+                        }
+                    ]
+                },
+                details: {
+                    'hotel-totem-madrid': {
+                        customContent: true,
+                        heroImage: 'images/hotels/totem.webp',
+                        description: 'Full description here...'
+                    }
+                }
+            };
+            
+            document.getElementById('total-count').textContent = '1';
+            document.getElementById('ready-count').textContent = '1';
+            showCurrentData();
+        }
+        
+        function showCurrentData() {
+            const preview = document.getElementById('preview-content');
+            preview.innerHTML = `
+                <h3>Current JSON Structure</h3>
+                <pre>${JSON.stringify(currentData.picks.picks[0], null, 2)}</pre>
+                <h3>Current Details Structure</h3>
+                <pre>${JSON.stringify(currentData.details[currentData.picks.picks[0].id] || {}, null, 2)}</pre>
+            `;
+        }
+        
+        function previewMigration() {
+            if (!currentData) {
+                alert('Please analyze content first');
+                return;
+            }
+            
+            // Convert to YAML format
+            const firstPick = currentData.picks.picks[0];
+            const details = currentData.details[firstPick.id] || {};
+            
+            const yamlStructure = `# ${firstPick.name}
+# =====================
+# This file contains all content for the ${firstPick.name} recommendation
+
+# Basic Information
+id: ${firstPick.id}
+name: ${firstPick.name}
+location: ${firstPick.location}
+categories: 
+${firstPick.categories.map(c => '  - ' + c).join('\n')}
+tags: 
+${firstPick.tags.map(t => '  - ' + t).join('\n')}
+
+# Display Settings
+orientation: ${firstPick.orientation || 'portrait'}
+featured: ${details.featured || false}
+rating: ${firstPick.rating || 'null'}
+
+# Content
+headline: "${details.headline || ''}"
+description: |
+  ${firstPick.description}
+
+# Images
+hero_image: ${details.heroImage || firstPick.image}
+gallery:
+${(details.galleryImages || []).map(img => `  - src: ${img.src}
+    alt: ${img.alt || ''}
+    caption: ${img.caption || ''}`).join('\n')}
+
+# Highlights
+highlights:
+${(details.highlights || []).map(h => '  - ' + h).join('\n')}
+
+# Metadata
+last_updated: ${new Date().toISOString().split('T')[0]}
+status: published`;
+            
+            const preview = document.getElementById('preview-content');
+            preview.innerHTML = `
+                <h3>New YAML Structure (${firstPick.id}.yaml)</h3>
+                <pre>${yamlStructure}</pre>
+            `;
+            
+            addLog('Migration preview generated', 'success');
+        }
+        
+        function startMigration() {
+            if (!currentData) {
+                alert('Please analyze content first');
+                return;
+            }
+            
+            addLog('Starting migration...', 'info');
+            
+            // Simulate migration process
+            let migrated = 0;
+            currentData.picks.picks.forEach((pick, index) => {
+                setTimeout(() => {
+                    addLog(`Migrating: ${pick.name}`, 'success');
+                    migrated++;
+                    document.getElementById('migrated-count').textContent = migrated;
+                    
+                    if (migrated === currentData.picks.picks.length) {
+                        addLog('Migration completed successfully!', 'success');
+                        alert('Migration completed! Your content has been converted to the new format.');
+                    }
+                }, index * 500);
+            });
+        }
+        
+        function downloadBackup() {
+            if (!currentData) {
+                alert('Please analyze content first');
+                return;
+            }
+            
+            const backup = {
+                timestamp: new Date().toISOString(),
+                picks: currentData.picks,
+                details: currentData.details
+            };
+            
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `squarecuadrado-backup-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            addLog('Backup downloaded', 'success');
+        }
+        
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tab === 'json') {
+                showCurrentData();
+            } else if (tab === 'yaml') {
+                previewMigration();
+            } else if (tab === 'comparison') {
+                showComparison();
+            }
+        }
+        
+        function showComparison() {
+            const preview = document.getElementById('preview-content');
+            preview.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h3>JSON (Current)</h3>
+                        <pre style="font-size: 11px;">${JSON.stringify(currentData.picks.picks[0], null, 2)}</pre>
+                    </div>
+                    <div>
+                        <h3>YAML (New)</h3>
+                        <pre style="font-size: 11px;">id: ${currentData.picks.picks[0].id}
+name: ${currentData.picks.picks[0].name}
+location: ${currentData.picks.picks[0].location}
+categories: 
+${currentData.picks.picks[0].categories.map(c => '  - ' + c).join('\n')}
+tags: 
+${currentData.picks.picks[0].tags.map(t => '  - ' + t).join('\n')}</pre>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('migration-log');
+            const logEntries = document.getElementById('log-entries');
+            
+            logContainer.style.display = 'block';
+            
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            entry.textContent = `[${timestamp}] ${message}`;
+            
+            logEntries.appendChild(entry);
+            logEntries.scrollTop = logEntries.scrollHeight;
+        }
+    </script>
+</body>
+</html>

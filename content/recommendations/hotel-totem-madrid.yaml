@@ -1,0 +1,78 @@
+# Hotel Totem Madrid
+# =====================
+# This file contains all content for the Hotel Totem recommendation
+
+# Basic Information
+id: hotel-totem-madrid
+name: Hotel Totem
+location: Madrid, Spain
+categories: 
+  - hotels
+tags: 
+  - Boutique
+  - Design
+  - Central
+  - Madrid
+
+# Display Settings
+orientation: portrait
+featured: true
+rating: 4.5
+
+# Content
+headline: "Charming boutique hotel in the heart of Salamanca"
+description: |
+  Charming small, nicely designed hotel. The hotel's lobby and restaurant 
+  makes hanging out in the hotel a pleasure. Hotel Totem is located in the 
+  heart of Madrid's Salamanca neighborhood, next to great restaurants and shops.
+
+# Images
+hero_image: images/hotels/totem.webp
+gallery:
+  - src: images/recommendations/totem-2.jpg
+    alt: Hotel Totem Interior
+    caption: Beautiful interior design blending modern and classic elements
+  - src: images/recommendations/totem-3.jpg
+    alt: Hotel Totem Lobby
+    caption: The inviting lobby area perfect for afternoon coffee
+  - src: images/recommendations/totem-4.jpg
+    alt: Hotel Totem Room
+    caption: Thoughtfully designed rooms with attention to detail
+  - src: images/recommendations/totem-5.jpg
+    alt: Hotel Totem Details
+    caption: Artistic touches throughout the property
+
+# Highlights
+highlights:
+  - Exceptional design with curated art pieces
+  - Rooftop terrace with city views
+  - Walking distance to top restaurants
+  - Intimate boutique atmosphere
+  - Outstanding breakfast selection
+
+# Additional Sections
+sections:
+  - title: Why I Love It
+    content: |
+      This hotel perfectly captures Madrid's contemporary spirit while maintaining 
+      its classic charm. The attention to detail in every corner makes it feel 
+      like staying at a friend's incredibly stylish apartment.
+  
+  - title: Best For
+    content: |
+      Design lovers, couples seeking romance, business travelers who appreciate 
+      aesthetics, anyone wanting to experience Madrid's sophisticated side.
+
+# Links & Actions
+links:
+  website: https://totemhotel.com
+  booking: https://booking.com/hotel-totem
+  instagram: @hoteltotemmadrid
+
+# Metadata
+last_updated: 2024-12-07
+status: published  # draft, published, archived
+notes: |
+  Internal notes about this recommendation
+  - Need to update photos from latest visit
+  - Consider adding restaurant recommendations nearby

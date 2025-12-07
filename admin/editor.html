@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Editor - Square Cuadrado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .editor-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Editor Panel */
+        .editor-panel {
+            flex: 1;
+            background: white;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .editor-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #f8f8f8;
+        }
+        
+        .btn-primary {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        .btn-primary:hover {
+            background: #555;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #333;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .tag-input-container {
+            position: relative;
+        }
+        
+        .tag-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag-remove {
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+        }
+        
+        .tag-remove:hover {
+            color: #333;
+        }
+        
+        /* Image Management */
+        .image-manager {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .image-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .upload-area {
+            padding: 40px;
+            background: #fafafa;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            background: #f5f5f5;
+        }
+        
+        /* Preview Panel */
+        .preview-panel {
+            width: 500px;
+            background: #fff;
+            border-left: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .preview-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            background: #fafafa;
+        }
+        
+        .preview-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .device-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .device-btn {
+            padding: 5px 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .device-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        .preview-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .preview-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .preview-card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .preview-card-content {
+            padding: 20px;
+        }
+        
+        .preview-card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .preview-card-location {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .preview-card-description {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .preview-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .preview-tag {
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .preview-gallery {
+            margin-top: 20px;
+        }
+        
+        .preview-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .preview-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+        
+        .preview-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 0;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #666;
+        }
+        
+        .tab.active {
+            color: #333;
+            border-bottom-color: #333;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Status indicator */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #999;
+        }
+        
+        .status-published .status-dot {
+            background: #4CAF50;
+        }
+        
+        .status-draft .status-dot {
+            background: #FF9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+            <div class="editor-header">
+                <div>
+                    <h1 class="editor-title">Edit Recommendation</h1>
+                    <div class="status-indicator status-draft">
+                        <span class="status-dot"></span>
+                        <span>Draft</span>
+                    </div>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn" onclick="saveDraft()">Save Draft</button>
+                    <button class="btn btn-success" onclick="publish()">Publish</button>
+                    <button class="btn" onclick="goBack()">← Back to Dashboard</button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="basic">Basic Information</div>
+                <div class="tab" data-tab="content">Content</div>
+                <div class="tab" data-tab="images">Images</div>
+                <div class="tab" data-tab="seo">SEO & Meta</div>
+            </div>
+            
+            <!-- Basic Information Tab -->
+            <div class="tab-content active" id="basic-tab">
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input type="text" class="form-control" id="name" placeholder="e.g., Hotel Totem">
+                        </div>
+                        <div class="form-group">
+                            <label>Location *</label>
+                            <input type="text" class="form-control" id="location" placeholder="e.g., Madrid, Spain">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Short Description *</label>
+                        <textarea class="form-control" id="description" 
+                                placeholder="Brief description that appears in cards..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Categories</label>
+                            <select class="form-control" id="categories" multiple style="height: 100px;">
+                                <option value="hotels">Hotels</option>
+                                <option value="restaurants">Restaurants</option>
+                                <option value="cafes">Cafes</option>
+                                <option value="apparel">Apparel</option>
+                                <option value="design">Design</option>
+                                <option value="wellness-fitness">Wellness & Fitness</option>
+                                <option value="accessories">Accessories</option>
+                            </select>
+                            <small>Hold Ctrl/Cmd to select multiple</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating (Optional)</label>
+                            <input type="number" class="form-control" id="rating" 
+                                   min="1" max="5" step="0.5" placeholder="4.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tags</label>
+                        <div class="tag-input-container">
+                            <input type="text" class="form-control" id="tag-input" 
+                                   placeholder="Type a tag and press Enter">
+                            <div class="tag-list" id="tag-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Tab -->
+            <div class="tab-content" id="content-tab">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label>Headline</label>
+                        <input type="text" class="form-control" id="headline" 
+                               placeholder="Main headline for the detail page">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detailed Description</label>
+                        <textarea class="form-control" id="detailed-description" 
+                                style="min-height: 200px;"
+                                placeholder="Full description that appears on the detail page..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Highlights (one per line)</label>
+                        <textarea class="form-control" id="highlights" 
+                                placeholder="Exceptional design&#10;Rooftop terrace&#10;Walking distance to restaurants"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Additional Content Sections</label>
+                        <div id="additional-sections">
+                            <!-- Dynamic sections will be added here -->
+                        </div>
+                        <button class="btn" onclick="addSection()">+ Add Section</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Images Tab -->
+            <div class="tab-content" id="images-tab">
+                <div class="form-section">
+                    <h3>Hero Image</h3>
+                    <div class="image-manager">
+                        <div class="upload-area" onclick="uploadImage('hero')">
+                            <p>📷 Click to upload hero image</p>
+                            <small>Recommended: 1200x800px</small>
+                        </div>
+                        <div id="hero-preview" class="image-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Gallery Images</h3>
+                    <div class="image-manager">
+                        <div class="upload-area" onclick="uploadImage('gallery')">
+                            <p>📷 Click to upload gallery images</p>
+                            <small>Upload multiple images for the gallery</small>
+                        </div>
+                        <div id="gallery-preview" class="image-preview"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEO Tab -->
+            <div class="tab-content" id="seo-tab">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label>URL Slug</label>
+                        <input type="text" class="form-control" id="slug" 
+                               placeholder="hotel-totem-madrid">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>External Links</label>
+                        <input type="url" class="form-control" id="website" 
+                               placeholder="https://example.com" style="margin-bottom: 10px;">
+                        <input type="url" class="form-control" id="booking" 
+                               placeholder="Booking/reservation link">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Display Settings</label>
+                        <select class="form-control" id="orientation">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Internal Notes</label>
+                        <textarea class="form-control" id="notes" 
+                                placeholder="Notes for internal use only..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+            <div class="preview-header">
+                <h3>Live Preview</h3>
+                <div class="device-selector">
+                    <button class="device-btn active" data-device="desktop">Desktop</button>
+                    <button class="device-btn" data-device="mobile">Mobile</button>
+                </div>
+            </div>
+            <div class="preview-content">
+                <div class="preview-card">
+                    <img src="../images/placeholder.jpg" alt="Preview" class="preview-card-image" id="preview-image">
+                    <div class="preview-card-content">
+                        <h2 class="preview-card-title" id="preview-title">Recommendation Title</h2>
+                        <div class="preview-card-location" id="preview-location">📍 Location</div>
+                        <div class="preview-card-description" id="preview-description">
+                            Your description will appear here...
+                        </div>
+                        <div class="preview-tags" id="preview-tags">
+                            <!-- Tags will be added here -->
+                        </div>
+                        
+                        <div class="preview-gallery">
+                            <h3>Gallery</h3>
+                            <div class="preview-gallery-grid" id="preview-gallery">
+                                <!-- Gallery images will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize editor
+        let currentData = {
+            id: '',
+            name: '',
+            location: '',
+            description: '',
+            categories: [],
+            tags: [],
+            rating: null,
+            headline: '',
+            detailedDescription: '',
+            highlights: [],
+            sections: [],
+            heroImage: '',
+            galleryImages: [],
+            website: '',
+            booking: '',
+            orientation: 'portrait',
+            notes: '',
+            status: 'draft'
+        };
+        
+        // Load item if editing
+        function loadItem() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            
+            if (id) {
+                // Load existing item
+                // In production, this would load from your JSON/YAML file
+                loadSampleItem(id);
+            }
+        }
+        
+        function loadSampleItem(id) {
+            // Sample data for demo
+            currentData = {
+                id: id,
+                name: 'Hotel Totem',
+                location: 'Madrid, Spain',
+                description: 'Charming small, nicely designed hotel in Salamanca.',
+                categories: ['hotels'],
+                tags: ['Boutique', 'Design', 'Central'],
+                rating: 4.5,
+                headline: 'A perfect urban retreat',
+                detailedDescription: 'Full description here...',
+                highlights: ['Great design', 'Perfect location', 'Amazing breakfast'],
+                heroImage: '../images/hotels/totem.webp',
+                galleryImages: [],
+                status: 'published'
+            };
+            
+            populateForm();
+            updatePreview();
+        }
+        
+        function populateForm() {
+            document.getElementById('name').value = currentData.name;
+            document.getElementById('location').value = currentData.location;
+            document.getElementById('description').value = currentData.description;
+            document.getElementById('headline').value = currentData.headline || '';
+            document.getElementById('detailed-description').value = currentData.detailedDescription || '';
+            
+            // Populate tags
+            const tagList = document.getElementById('tag-list');
+            tagList.innerHTML = '';
+            currentData.tags.forEach(tag => addTagToList(tag));
+            
+            // Update preview
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            document.getElementById('preview-title').textContent = 
+                document.getElementById('name').value || 'Recommendation Title';
+            document.getElementById('preview-location').textContent = 
+                '📍 ' + (document.getElementById('location').value || 'Location');
+            document.getElementById('preview-description').textContent = 
+                document.getElementById('description').value || 'Your description will appear here...';
+            
+            // Update tags
+            const previewTags = document.getElementById('preview-tags');
+            previewTags.innerHTML = currentData.tags.map(tag => 
+                `<span class="preview-tag">${tag}</span>`
+            ).join('');
+        }
+        
+        function addTagToList(tag) {
+            const tagList = document.getElementById('tag-list');
+            const tagElement = document.createElement('span');
+            tagElement.className = 'tag';
+            tagElement.innerHTML = `
+                ${tag}
+                <span class="tag-remove" onclick="removeTag('${tag}')">×</span>
+            `;
+            tagList.appendChild(tagElement);
+        }
+        
+        function removeTag(tag) {
+            currentData.tags = currentData.tags.filter(t => t !== tag);
+            const tagList = document.getElementById('tag-list');
+            tagList.innerHTML = '';
+            currentData.tags.forEach(t => addTagToList(t));
+            updatePreview();
+        }
+        
+        function addSection() {
+            const container = document.getElementById('additional-sections');
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'form-group';
+            sectionDiv.style.border = '1px solid #eee';
+            sectionDiv.style.padding = '15px';
+            sectionDiv.style.borderRadius = '8px';
+            sectionDiv.innerHTML = `
+                <input type="text" class="form-control" placeholder="Section Title" style="margin-bottom: 10px;">
+                <textarea class="form-control" placeholder="Section content..."></textarea>
+                <button class="btn" style="margin-top: 10px;" onclick="this.parentElement.remove()">Remove Section</button>
+            `;
+            container.appendChild(sectionDiv);
+        }
+        
+        function saveDraft() {
+            // Collect all form data
+            collectFormData();
+            currentData.status = 'draft';
+            
+            // In production, save to your backend
+            console.log('Saving draft:', currentData);
+            alert('Draft saved successfully!');
+        }
+        
+        function publish() {
+            // Collect all form data
+            collectFormData();
+            currentData.status = 'published';
+            
+            // In production, save to your backend
+            console.log('Publishing:', currentData);
+            alert('Published successfully!');
+        }
+        
+        function collectFormData() {
+            currentData.name = document.getElementById('name').value;
+            currentData.location = document.getElementById('location').value;
+            currentData.description = document.getElementById('description').value;
+            currentData.headline = document.getElementById('headline').value;
+            currentData.detailedDescription = document.getElementById('detailed-description').value;
+            
+            // Collect categories
+            const categoriesSelect = document.getElementById('categories');
+            currentData.categories = Array.from(categoriesSelect.selectedOptions).map(opt => opt.value);
+        }
+        
+        function goBack() {
+            window.location.href = 'dashboard.html';
+        }
+        
+        function uploadImage(type) {
+            // In production, implement actual file upload
+            alert(`Upload ${type} image functionality would go here`);
+        }
+        
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                e.target.classList.add('active');
+                const tabId = e.target.dataset.tab + '-tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Tag input
+        document.getElementById('tag-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const input = e.target;
+                const tag = input.value.trim();
+                if (tag && !currentData.tags.includes(tag)) {
+                    currentData.tags.push(tag);
+                    addTagToList(tag);
+                    input.value = '';
+                    updatePreview();
+                }
+            }
+        });
+        
+        // Live preview updates
+        document.getElementById('name').addEventListener('input', updatePreview);
+        document.getElementById('location').addEventListener('input', updatePreview);
+        document.getElementById('description').addEventListener('input', updatePreview);
+        
+        // Load item on page load
+        loadItem();
+    </script>
+</body>
+</html>
