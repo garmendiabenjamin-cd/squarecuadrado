@@ -2,16 +2,7 @@
   "hotel-b-lima": {
     "customContent": true,
     "heroImage": "images/recommendations/hotel-b-3.png",
-    "headline": "Boutique luxury in Lima's artistic heart",
-    "subheadline": "What makes it special?",
-    "description": "Housed in a restored 1914 Belle Époque mansion in the bohemian Barranco district, Hotel B offers an intimate luxury experience. This 17-room boutique property seamlessly blends historic architecture with contemporary Peruvian art, creating a unique cultural sanctuary.",
-    "highlights": [
-      "17 uniquely designed rooms and suites",
-      "Rooftop terrace with Pacific Ocean views", 
-      "Walking distance to galleries, cafes, and nightlife",
-      "Curated collection of contemporary Peruvian art",
-      "Historic mansion with original architectural details"
-    ],
+    "description": "If you want to stay in a hotel that embodies Lima's past but blends it with it's contemporary lifestyle and art tastefully, then Hotel B in Barranco is the best choice. Located in the centre of a culinary and artistic neighbourhood in Lima, is located you want to be.  ",
     "galleryImages": [
       {
         "src": "images/recommendations/hotel-b-2.png",
@@ -23,36 +14,158 @@
       }
     ],
     "additionalSections": [
-      {
-        "title": "Location",
-        "content": "Barranco is Lima's most charming district, known for its colorful colonial architecture, vibrant art scene, and oceanfront location. The hotel is perfectly positioned to explore the area's museums, galleries, and renowned restaurants."
-      }
     ]
   },
   "hotel-totem-madrid": {
     "customContent": true,
     "heroImage": "images/hotels/totem.webp",
-    "headline": "Modern design meets Spanish hospitality",
-    "subheadline": "A boutique gem in Salamanca",
-    "description": "Hotel Totem brings a fresh perspective to Madrid's luxury hotel scene. Located in the upscale Salamanca neighborhood, this design-forward property combines sleek modern aesthetics with warm Spanish hospitality.",
-    "highlights": [
-      "Stunning rooftop bar with city views",
-      "Contemporary design by renowned architects",
-      "Prime Salamanca location near luxury shopping",
-      "Intimate size with personalized service"
-    ],
+    "description": "Charming small, nicely designed hotel. THe hotel's lobby and restaurant makes hanging out in the hotel a pleasure. Hotel Totem is located in the heart of Madrid's Salamanca neighborhood, next to great restaurants and shops..",    
     "galleryImages": [
       {
-        "src": "images/hotels/totem.webp",
-        "alt": "Hotel Totem Exterior"
+        "src": "images/recommendations/totem-2.jpg",
+        "alt": "Hotel Totem Interior"
+      },
+      {
+        "src": "images/recommendations/totem-3.jpg",
+        "alt": "Hotel Totem Lobby"
+      },
+      {
+        "src": "images/recommendations/totem-4.jpg",
+        "alt": "Hotel Totem Room"
+      },
+      {
+        "src": "images/recommendations/totem-5.jpg",
+        "alt": "Hotel Totem Details"
+      }
+    ]
+  },
+  "lululemon-metal-vent-tshirt": {
+    "customContent": true,
+    "heroImage": "images/recommendations/lululemon-model.png",
+    "description": "Comfort, durability and style. Most comfortable t-shirt I've used: I've run 3 marathons with them and train with them every day. Have been washed 50+ and look like new. Multiple colors to choose from, from basics to seasonal additions.",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/lululemon-detail-1.png",
+        "alt": "Lululemon shirt shoulder detail"
+      },
+      {
+        "src": "images/recommendations/lululemon-detail-2.png",
+        "alt": "Lululemon shirt fabric detail"
+      }
+    ],
+    "additionalSections": [
+      {
+        "title": "Performance Features",
+        "content": "Designed for high-intensity training, this shirt features anti-stink technology and four-way stretch fabric that moves with you through any workout."
       }
     ]
   },
   "casa-lucia-buenos-aires": {
-    "customContent": false
+    "customContent": true,
+    "heroImage": "images/hotels/casalucia.png",
+    "description": "Tastefully remodelled classic Buenos Aires hotel in the most charming street in town. Next to an iconic bar, Floreria Atlántico. Beautiful pool and sylish lobby and bar. ",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/casa-lucia-1.jpg",
+        "alt": "Casa Lucia exterior"
+      },
+      {
+        "src": "images/recommendations/casa-lucia-2.jpg",
+        "alt": "Calle Arroyo"
+      },
+      {
+        "src": "images/recommendations/casa-lucia-3.webp",
+        "alt": "Casa Lucia"
+      },
+      {
+        "src": "images/recommendations/casa-lucia-4.jpg",
+        "alt": "Casa Lucia room"
+      },
+      {
+        "src": "images/recommendations/casa-lucia-5.webp"
+      },
+      {
+        "src": "images/recommendations/casa-lucia-6.jpg"
+      }
+    ]
+  },
+  "muji-smooth-retractable-gel-pen-0.5-mm": {
+    "customContent": true,
+    "heroImage": "images/recommendations/mujipen.jpg",
+    "headline": "The perfect everyday writing companion",
+    "subheadline": "Simple, reliable, timeless",
+    "description": "A smooth retractable gel pen with a 0.5 mm tip. Transparent and timeless design that embodies MUJI's philosophy of simplicity and functionality. This pen has become a cult favorite among designers, students, and professionals worldwide.",
+    "highlights": [
+      "0.5mm tip for precise writing",
+      "Smooth gel ink flow",
+      "Transparent body shows ink level",
+      "Retractable design prevents ink drying",
+      "Affordable price point",
+      "Available in black, blue, and red ink"
+    ],
+    "galleryImages": [],
+    "additionalSections": [
+      {
+        "title": "Why It's Special",
+        "content": "In a world of complicated designs, this pen stands out for what it doesn't have - no unnecessary features, no flashy colors, just pure functionality. It's the pen you reach for without thinking, and it never lets you down."
+      }
+    ]
+  },
+  "vitra-lampe-de-bureau": {
+    "customContent": true,
+    "heroImage": "images/recommendations/vitra-desk-lamp-2.jpg",
+    "description": "Jean Prouvé's lamp, designed in 1930 for the Cité Universitaire de Nancy, provides the perfect light for long nights of work.",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/vitra-desk-lamp-1.jpg",
+        "alt": "Vitra Lampe de Bureau side view"
+      },
+      {
+        "src": "images/recommendations/vitra-desk-lamp-3.jpg",
+        "alt": "Vitra Lampe de Bureau detail"
+      }
+    ],
+    "additionalSections": []
+  },
+  "ghezzi-novak-manto-lamp": {
+    "customContent": true,
+    "heroImage": "images/recommendations/manto-lamp-1.png",
+    "description": "This versatile lamp gives any room a sense of movement and warmth through its curves, light and use of cotton.",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/manto-lamp-2.png",
+        "alt": "Manto Lamp detail view"
+      },
+      {
+        "src": "images/recommendations/manto-lamp-3.png",
+        "alt": "Manto Lamp in context"
+      }
+    ],
+    "additionalSections": []
+  },
+  "cos-dark-khaki-overshirt": {
+    "customContent": true,
+    "heroImage": "images/recommendations/cos-overshirt-1.png",
+    "description": "Provides a beautiful layer for winter and a perfect thing to wear alone over a plain white t-shirt in fall. I have a weakness for this kind of green, as you might start to learn.",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/cos-overshirt-2.png",
+        "alt": "COS Overshirt detail"
+      },
+      {
+        "src": "images/recommendations/cos-overshirt-3.png",
+        "alt": "COS Overshirt styling"
+      }
+    ],
+    "additionalSections": []
   },
   "default": {
     "customContent": false,
-    "description": "Discover what makes this place special. From unique design elements to exceptional service, every detail has been carefully curated to create an unforgettable experience."
+    "description": "",
+    "highlightsTitle": "Highlights",
+    "buttonText": "View Full Details",
+    "showRating": false,
+    "showTags": false,
+    "showLocation": true
   }
 }

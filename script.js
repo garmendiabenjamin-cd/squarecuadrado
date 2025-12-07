@@ -815,10 +815,10 @@ function renderMasonryCard(pick) {
     // Check if we're on the squared images page
     const isSquaredLayout = document.body.classList.contains('squared-images');
     
-    // For hotel-b-lima, use slide sheet instead of detail page
-    const isHotelB = pick.id === 'hotel-b-lima';
-    const href = isHotelB ? '#' : (pick.detailPage || '#');
-    const dataPickId = isHotelB ? `data-pick-id="${pick.id}"` : '';
+    // Use slide sheet by default, unless a detail page is explicitly defined
+    const useSlideSheet = !pick.detailPage;
+    const href = useSlideSheet ? '#' : pick.detailPage;
+    const dataPickId = useSlideSheet ? `data-pick-id="${pick.id}"` : '';
     
     if (isSquaredLayout) {
         // Squared layout with image container
@@ -894,12 +894,13 @@ async function initializePicks() {
     setTimeout(() => {
         initializeMasonryFilter();
         
-        // Add click handlers for hotel-b cards
-        const hotelBCards = document.querySelectorAll('[data-pick-id="hotel-b-lima"]');
-        hotelBCards.forEach(card => {
+        // Add click handlers for all cards with slide sheets
+        const slideSheetCards = document.querySelectorAll('[data-pick-id]');
+        slideSheetCards.forEach(card => {
             card.addEventListener('click', (e) => {
                 e.preventDefault();
-                openSlideSheet('hotel-b-lima');
+                const pickId = card.getAttribute('data-pick-id');
+                openSlideSheet(pickId);
             });
         });
     }, 100);
@@ -1017,7 +1018,7 @@ function openSlideSheet(pickId) {
             </div>
             ${details.highlights ? `
                 <div class="slide-sheet-highlights">
-                    <h3>Highlights</h3>
+                    <h3>${details.highlightsTitle || 'Highlights'}</h3>
                     <ul>
                         ${details.highlights.map(highlight => `<li>${highlight}</li>`).join('')}
                     </ul>
@@ -1038,29 +1039,39 @@ function openSlideSheet(pickId) {
                     <p>${section.content}</p>
                 </div>
             `).join('') : ''}
-            ${pick.detailPage ? `
+            ${(pick.detailPage || details.actionButtons) ? `
                 <div class="slide-sheet-actions">
-                    <a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">View Full Details</a>
+                    ${pick.detailPage ? `<a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">${details.buttonText || 'View Full Details'}</a>` : ''}
+                    ${details.actionButtons ? details.actionButtons.map(btn => 
+                        `<a href="${btn.url}" class="slide-sheet-button ${btn.primary ? 'slide-sheet-button-primary' : 'slide-sheet-button-secondary'}">${btn.text}</a>`
+                    ).join('') : ''}
                 </div>
             ` : ''}
         `;
     } else {
         // Default content for picks without custom content
+        const defaultSettings = globalPicksDetails?.default || {};
+        const showLocation = defaultSettings.showLocation !== false;
+        const showRating = defaultSettings.showRating !== false;
+        const showTags = defaultSettings.showTags !== false;
+        
         content = `
             <div class="slide-sheet-hero-container">
                 <img src="${pick.image}" alt="${pick.name}" class="slide-sheet-hero-image">
             </div>
             <div class="slide-sheet-text">
-                <p class="slide-sheet-location">${pick.location}</p>
-                <p class="slide-sheet-description">${pick.description}</p>
-                <div class="slide-sheet-rating">★ ${pick.rating}/5</div>
+                ${showLocation ? `<p class="slide-sheet-location">${pick.location}</p>` : ''}
+                <p class="slide-sheet-description">${defaultSettings.description || pick.description}</p>
+                ${showRating && pick.rating ? `<div class="slide-sheet-rating">★ ${pick.rating}/5</div>` : ''}
             </div>
-            <div class="slide-sheet-tags">
-                ${pick.tags.map(tag => `<span class="slide-sheet-tag">${tag}</span>`).join('')}
-            </div>
+            ${showTags && pick.tags ? `
+                <div class="slide-sheet-tags">
+                    ${pick.tags.map(tag => `<span class="slide-sheet-tag">${tag}</span>`).join('')}
+                </div>
+            ` : ''}
             ${pick.detailPage ? `
                 <div class="slide-sheet-actions">
-                    <a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">View Full Details</a>
+                    <a href="${pick.detailPage}" class="slide-sheet-button slide-sheet-button-primary">${defaultSettings.buttonText || 'View Full Details'}</a>
                 </div>
             ` : ''}
         `;

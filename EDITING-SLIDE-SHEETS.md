@@ -49,8 +49,11 @@ The `picks-details.json` file contains custom content for each pick:
 - `subheadline`: Smaller text above the headline
 - `description`: Main description paragraph
 - `highlights`: Array of bullet points
+- `highlightsTitle`: Custom title for highlights section (default: "Highlights")
 - `galleryImages`: Array of image objects with `src` and `alt`
 - `additionalSections`: Array of custom sections with `title` and `content`
+- `buttonText`: Custom text for the detail button (default: "View Full Details")
+- `actionButtons`: Array of custom action buttons with `text`, `url`, and `primary` (boolean)
 
 ## Examples
 
@@ -95,11 +98,24 @@ The `picks-details.json` file contains custom content for each pick:
 }
 ```
 
-### Default Content
-For picks without custom content, set `customContent` to `false` or omit the entry entirely:
+### Default Content Configuration
+For picks without custom content, you can still customize the default layout:
 ```json
 "simple-pick": {
   "customContent": false
+}
+```
+
+Or configure default settings for all picks:
+```json
+"default": {
+  "customContent": false,
+  "description": "Override default description for all picks",
+  "highlightsTitle": "Features",
+  "buttonText": "Learn More",
+  "showRating": true,
+  "showTags": true,
+  "showLocation": true
 }
 ```
 
