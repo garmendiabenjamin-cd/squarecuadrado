@@ -618,26 +618,124 @@
             const id = urlParams.get('id');
             
             if (id) {
-                // Load existing item
-                // In production, this would load from your JSON/YAML file
+                // Load existing item from actual data
+                loadItemData(id);
+            }
+        }
+        
+        async function loadItemData(id) {
+            try {
+                // Load picks data
+                const picksResponse = await fetch('../data/picks.json');
+                const picksData = await picksResponse.json();
+                
+                // Load details data
+                const detailsResponse = await fetch('../data/picks-details.json');
+                const detailsData = await detailsResponse.json();
+                
+                // Find the item by ID
+                const pickItem = picksData.picks.find(item => item.id === id);
+                const detailItem = detailsData[id] || {};
+                
+                if (!pickItem) {
+                    console.error('Item not found:', id);
+                    alert('Item not found. Creating new item instead.');
+                    return;
+                }
+                
+                // Merge pick and detail data
+                currentData = {
+                    id: pickItem.id,
+                    name: pickItem.name,
+                    location: pickItem.location,
+                    description: pickItem.description,
+                    categories: pickItem.categories || [],
+                    tags: pickItem.tags || [],
+                    rating: pickItem.rating || null,
+                    headline: detailItem.headline || '',
+                    detailedDescription: detailItem.description || pickItem.description,
+                    highlights: detailItem.highlights || [],
+                    heroImage: detailItem.heroImage || pickItem.image,
+                    galleryImages: detailItem.galleryImages || [],
+                    orientation: pickItem.orientation || 'portrait',
+                    status: detailItem.customContent ? 'published' : 'draft',
+                    additionalSections: detailItem.additionalSections || []
+                };
+                
+                populateForm();
+                updatePreview();
+                
+                // Update status indicator
+                const statusIndicator = document.querySelector('.status-indicator');
+                if (statusIndicator) {
+                    statusIndicator.className = `status-indicator status-${currentData.status}`;
+                    statusIndicator.querySelector('span:last-child').textContent = 
+                        currentData.status.charAt(0).toUpperCase() + currentData.status.slice(1);
+                }
+                
+            } catch (error) {
+                console.error('Error loading item data:', error);
+                // Fallback to sample data for demo purposes
                 loadSampleItem(id);
             }
         }
         
         function loadSampleItem(id) {
-            // Sample data for demo
+            // Fallback sample data for different items
+            const sampleData = {
+                'hotel-totem-madrid': {
+                    name: 'Hotel Totem',
+                    location: 'Madrid, Spain',
+                    description: 'Charming small, nicely designed hotel in Salamanca.',
+                    categories: ['hotels'],
+                    tags: ['Boutique', 'Design', 'Central'],
+                    rating: 4.5,
+                    headline: 'A perfect urban retreat',
+                    detailedDescription: 'Charming small, nicely designed hotel. The hotel\'s lobby and restaurant makes hanging out in the hotel a pleasure.',
+                    highlights: ['Great design', 'Perfect location', 'Amazing breakfast'],
+                    heroImage: '../images/hotels/totem.webp'
+                },
+                'casa-lucia-buenos-aires': {
+                    name: 'Casa Lucia',
+                    location: 'Buenos Aires, Argentina',
+                    description: 'Tastefully remodelled classic Buenos Aires hotel in the most charming street in town.',
+                    categories: ['hotels'],
+                    tags: ['Luxury', 'Buenos Aires'],
+                    rating: 5,
+                    headline: 'Stylish luxury in the heart of BA',
+                    detailedDescription: 'Tastefully remodelled classic Buenos Aires hotel in the most charming street in town. Next to an iconic bar, Floreria Atlántico.',
+                    highlights: ['Beautiful pool', 'Stylish lobby', 'Prime location'],
+                    heroImage: '../images/hotels/casalucia.png'
+                },
+                'lululemon-metal-vent-tshirt': {
+                    name: 'Lululemon Metal Vent Tech Short-Sleeve Shirt',
+                    location: 'International',
+                    description: 'A high-performance basic t-shirt for running, training, and everyday wear.',
+                    categories: ['apparel', 'wellness-fitness'],
+                    tags: ['Lululemon', 'Running', 'Performance', 'Basic'],
+                    rating: 5,
+                    headline: 'The perfect everyday training shirt',
+                    detailedDescription: 'Comfort, durability and style. Most comfortable t-shirt I\'ve used: I\'ve run 3 marathons with them.',
+                    highlights: ['Anti-stink technology', 'Four-way stretch', 'Extremely durable'],
+                    heroImage: '../images/recommendations/lululemon-model.png'
+                }
+            };
+            
+            // Use the specific sample data if available, otherwise use a default
+            const itemData = sampleData[id] || sampleData['hotel-totem-madrid'];
+            
             currentData = {
                 id: id,
-                name: 'Hotel Totem',
-                location: 'Madrid, Spain',
-                description: 'Charming small, nicely designed hotel in Salamanca.',
-                categories: ['hotels'],
-                tags: ['Boutique', 'Design', 'Central'],
-                rating: 4.5,
-                headline: 'A perfect urban retreat',
-                detailedDescription: 'Full description here...',
-                highlights: ['Great design', 'Perfect location', 'Amazing breakfast'],
-                heroImage: '../images/hotels/totem.webp',
+                name: itemData.name,
+                location: itemData.location,
+                description: itemData.description,
+                categories: itemData.categories,
+                tags: itemData.tags,
+                rating: itemData.rating,
+                headline: itemData.headline,
+                detailedDescription: itemData.detailedDescription,
+                highlights: itemData.highlights,
+                heroImage: itemData.heroImage,
                 galleryImages: [],
                 status: 'published'
             };
@@ -647,16 +745,94 @@
         }
         
         function populateForm() {
-            document.getElementById('name').value = currentData.name;
-            document.getElementById('location').value = currentData.location;
-            document.getElementById('description').value = currentData.description;
+            document.getElementById('name').value = currentData.name || '';
+            document.getElementById('location').value = currentData.location || '';
+            document.getElementById('description').value = currentData.description || '';
             document.getElementById('headline').value = currentData.headline || '';
             document.getElementById('detailed-description').value = currentData.detailedDescription || '';
+            document.getElementById('rating').value = currentData.rating || '';
+            document.getElementById('orientation').value = currentData.orientation || 'portrait';
+            document.getElementById('notes').value = currentData.notes || '';
+            
+            // Populate categories
+            const categoriesSelect = document.getElementById('categories');
+            Array.from(categoriesSelect.options).forEach(option => {
+                option.selected = currentData.categories && currentData.categories.includes(option.value);
+            });
             
             // Populate tags
             const tagList = document.getElementById('tag-list');
             tagList.innerHTML = '';
-            currentData.tags.forEach(tag => addTagToList(tag));
+            if (currentData.tags && currentData.tags.length > 0) {
+                currentData.tags.forEach(tag => addTagToList(tag));
+            }
+            
+            // Populate highlights
+            if (currentData.highlights && currentData.highlights.length > 0) {
+                document.getElementById('highlights').value = currentData.highlights.join('\n');
+            }
+            
+            // Populate hero image preview
+            if (currentData.heroImage) {
+                const heroPreview = document.getElementById('hero-preview');
+                // Add ../ prefix if not already present
+                const heroSrc = currentData.heroImage.startsWith('../') ? currentData.heroImage : '../' + currentData.heroImage;
+                heroPreview.innerHTML = `
+                    <div class="image-item">
+                        <img src="${heroSrc}" alt="Hero image">
+                        <div class="remove-image" onclick="removeHeroImage()">×</div>
+                    </div>
+                `;
+                document.getElementById('preview-image').src = heroSrc;
+            }
+            
+            // Populate gallery images
+            if (currentData.galleryImages && currentData.galleryImages.length > 0) {
+                const galleryPreview = document.getElementById('gallery-preview');
+                galleryPreview.innerHTML = currentData.galleryImages.map((img, index) => {
+                    const imageSrc = img.src || img;
+                    // Add ../ prefix if not already present
+                    const finalSrc = imageSrc.startsWith('../') ? imageSrc : '../' + imageSrc;
+                    return `
+                        <div class="image-item">
+                            <img src="${finalSrc}" alt="${img.alt || ''}">
+                            <div class="remove-image" onclick="removeGalleryImage(${index})">×</div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Update preview gallery
+                const previewGallery = document.getElementById('preview-gallery');
+                previewGallery.innerHTML = currentData.galleryImages.slice(0, 4).map(img => {
+                    const imageSrc = img.src || img;
+                    const finalSrc = imageSrc.startsWith('../') ? imageSrc : '../' + imageSrc;
+                    return `
+                        <div class="preview-gallery-item">
+                            <img src="${finalSrc}" alt="${img.alt || ''}">
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Populate additional sections
+            if (currentData.additionalSections && currentData.additionalSections.length > 0) {
+                const container = document.getElementById('additional-sections');
+                container.innerHTML = '';
+                currentData.additionalSections.forEach((section, index) => {
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'form-group';
+                    sectionDiv.style.border = '1px solid #eee';
+                    sectionDiv.style.padding = '15px';
+                    sectionDiv.style.borderRadius = '8px';
+                    sectionDiv.innerHTML = `
+                        <input type="text" class="form-control" placeholder="Section Title" 
+                               value="${section.title || ''}" style="margin-bottom: 10px;">
+                        <textarea class="form-control" placeholder="Section content...">${section.content || ''}</textarea>
+                        <button class="btn" style="margin-top: 10px;" onclick="this.parentElement.remove()">Remove Section</button>
+                    `;
+                    container.appendChild(sectionDiv);
+                });
+            }
             
             // Update preview
             updatePreview();
@@ -711,24 +887,154 @@
             container.appendChild(sectionDiv);
         }
         
-        function saveDraft() {
+        async function saveDraft() {
             // Collect all form data
             collectFormData();
             currentData.status = 'draft';
             
-            // In production, save to your backend
-            console.log('Saving draft:', currentData);
-            alert('Draft saved successfully!');
+            await saveData();
         }
         
-        function publish() {
+        async function publish() {
             // Collect all form data
             collectFormData();
             currentData.status = 'published';
             
-            // In production, save to your backend
-            console.log('Publishing:', currentData);
-            alert('Published successfully!');
+            await saveData();
+        }
+        
+        async function saveData() {
+            try {
+                // Prepare data for saving
+                const pickData = {
+                    id: currentData.id,
+                    name: currentData.name,
+                    location: currentData.location,
+                    description: currentData.description,
+                    categories: currentData.categories,
+                    tags: currentData.tags,
+                    rating: currentData.rating,
+                    orientation: currentData.orientation,
+                    image: currentData.heroImage ? currentData.heroImage.replace('../', '') : ''
+                };
+                
+                const details = {
+                    customContent: true,
+                    headline: currentData.headline,
+                    description: currentData.detailedDescription,
+                    highlights: currentData.highlights,
+                    heroImage: currentData.heroImage ? currentData.heroImage.replace('../', '') : '',
+                    galleryImages: (currentData.galleryImages || []).map(img => {
+                        if (typeof img === 'string') {
+                            return {
+                                src: img.replace('../', ''),
+                                alt: ''
+                            };
+                        }
+                        return {
+                            ...img,
+                            src: img.src ? img.src.replace('../', '') : ''
+                        };
+                    }),
+                    additionalSections: currentData.additionalSections || []
+                };
+                
+                // Determine if creating or updating
+                const isNew = !currentData.id || currentData.id === 'new';
+                const method = isNew ? 'POST' : 'PUT';
+                const endpoint = '/api/pick';
+                
+                if (isNew) {
+                    // Generate a unique ID for new items
+                    currentData.id = currentData.name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Date.now();
+                    pickData.id = currentData.id;
+                }
+                
+                // Try to save using the API if admin server is running
+                try {
+                    const response = await fetch(`http://localhost:8889${endpoint}`, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: currentData.id,
+                            data: pickData,
+                            details: details
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        alert(`${currentData.status === 'published' ? 'Published' : 'Saved'} successfully!`);
+                        
+                        // Update status indicator
+                        const statusIndicator = document.querySelector('.status-indicator');
+                        if (statusIndicator) {
+                            statusIndicator.className = `status-indicator status-${currentData.status}`;
+                            statusIndicator.querySelector('span:last-child').textContent = 
+                                currentData.status.charAt(0).toUpperCase() + currentData.status.slice(1);
+                        }
+                        
+                        // If new item was created, update URL
+                        if (isNew) {
+                            history.replaceState(null, '', `?id=${currentData.id}`);
+                        }
+                    } else {
+                        throw new Error('Server returned error');
+                    }
+                } catch (apiError) {
+                    // Fallback: Show instructions for manual save if API not available
+                    console.error('API Error:', apiError);
+                    showManualSaveInstructions(pickData, details);
+                }
+                
+            } catch (error) {
+                console.error('Error saving:', error);
+                alert('Error saving data. Please check console for details.');
+            }
+        }
+        
+        function showManualSaveInstructions(pickData, details) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                max-width: 600px;
+                max-height: 80vh;
+                overflow-y: auto;
+                z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <h2 style="margin-bottom: 20px;">Save Instructions</h2>
+                <p style="margin-bottom: 15px;">To save your changes, start the admin server:</p>
+                <pre style="background: #f5f5f5; padding: 10px; border-radius: 6px; margin-bottom: 20px;">node admin-server.js</pre>
+                <p style="margin-bottom: 15px;">Or manually update these files:</p>
+                
+                <h3 style="margin-top: 20px; margin-bottom: 10px;">1. Update data/picks.json:</h3>
+                <textarea style="width: 100%; height: 150px; font-family: monospace; font-size: 12px;" readonly>${JSON.stringify(pickData, null, 2)}</textarea>
+                
+                <h3 style="margin-top: 20px; margin-bottom: 10px;">2. Update data/picks-details.json (add under "${currentData.id}"):</h3>
+                <textarea style="width: 100%; height: 150px; font-family: monospace; font-size: 12px;" readonly>${JSON.stringify(details, null, 2)}</textarea>
+                
+                <button onclick="this.parentElement.remove()" style="
+                    margin-top: 20px;
+                    padding: 10px 20px;
+                    background: #333;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                ">Close</button>
+            `;
+            
+            document.body.appendChild(modal);
         }
         
         function collectFormData() {
@@ -737,10 +1043,34 @@
             currentData.description = document.getElementById('description').value;
             currentData.headline = document.getElementById('headline').value;
             currentData.detailedDescription = document.getElementById('detailed-description').value;
+            currentData.rating = document.getElementById('rating').value ? parseFloat(document.getElementById('rating').value) : null;
+            currentData.orientation = document.getElementById('orientation').value;
+            currentData.notes = document.getElementById('notes').value;
             
             // Collect categories
             const categoriesSelect = document.getElementById('categories');
             currentData.categories = Array.from(categoriesSelect.selectedOptions).map(opt => opt.value);
+            
+            // Collect highlights
+            const highlightsText = document.getElementById('highlights').value;
+            currentData.highlights = highlightsText ? highlightsText.split('\n').filter(h => h.trim()) : [];
+            
+            // Collect additional sections
+            const sectionsContainer = document.getElementById('additional-sections');
+            currentData.additionalSections = [];
+            if (sectionsContainer) {
+                const sectionDivs = sectionsContainer.querySelectorAll('.form-group');
+                sectionDivs.forEach(div => {
+                    const titleInput = div.querySelector('input');
+                    const contentTextarea = div.querySelector('textarea');
+                    if (titleInput && contentTextarea && titleInput.value) {
+                        currentData.additionalSections.push({
+                            title: titleInput.value,
+                            content: contentTextarea.value
+                        });
+                    }
+                });
+            }
         }
         
         function goBack() {
@@ -750,6 +1080,17 @@
         function uploadImage(type) {
             // In production, implement actual file upload
             alert(`Upload ${type} image functionality would go here`);
+        }
+        
+        function removeHeroImage() {
+            currentData.heroImage = '';
+            document.getElementById('hero-preview').innerHTML = '';
+            document.getElementById('preview-image').src = '../images/placeholder.jpg';
+        }
+        
+        function removeGalleryImage(index) {
+            currentData.galleryImages.splice(index, 1);
+            populateForm();
         }
         
         // Tab switching
