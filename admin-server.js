@@ -29,8 +29,56 @@ function sendJSON(res, data, statusCode = 200) {
 
 // Helper function to serve static files
 async function serveStatic(req, res) {
-    let filePath = '.' + req.url;
+    let filePath = '.' + req.url.split('?')[0]; // Remove query parameters
+    
+    // Default redirects for common admin paths
+    if (filePath === './admin' || filePath === './admin/') {
+        res.writeHead(302, { 'Location': '/admin/dashboard.html' });
+        res.end();
+        return;
+    }
+    
+    // Default to index.html for root
     if (filePath === './') filePath = './index.html';
+    
+    // Check if path is a directory and try to serve appropriate file
+    try {
+        const stat = await fs.stat(filePath);
+        if (stat.isDirectory()) {
+            // For admin directory, serve dashboard.html
+            if (filePath.includes('/admin')) {
+                const dashboardPath = path.join(filePath, 'dashboard.html');
+                try {
+                    await fs.stat(dashboardPath);
+                    filePath = dashboardPath;
+                } catch {
+                    // Dashboard doesn't exist, try index.html
+                    const indexPath = path.join(filePath, 'index.html');
+                    try {
+                        await fs.stat(indexPath);
+                        filePath = indexPath;
+                    } catch {
+                        res.writeHead(404);
+                        res.end('No dashboard.html or index.html found in admin directory');
+                        return;
+                    }
+                }
+            } else {
+                // For other directories, try index.html
+                const indexPath = path.join(filePath, 'index.html');
+                try {
+                    await fs.stat(indexPath);
+                    filePath = indexPath;
+                } catch {
+                    res.writeHead(403);
+                    res.end('Directory listing not allowed');
+                    return;
+                }
+            }
+        }
+    } catch {
+        // File doesn't exist yet, will be handled below
+    }
     
     const extname = path.extname(filePath).toLowerCase();
     const mimeTypes = {
@@ -43,7 +91,9 @@ async function serveStatic(req, res) {
         '.jpeg': 'image/jpeg',
         '.gif': 'image/gif',
         '.webp': 'image/webp',
-        '.svg': 'image/svg+xml'
+        '.svg': 'image/svg+xml',
+        '.mov': 'video/quicktime',
+        '.mp4': 'video/mp4'
     };
     
     const contentType = mimeTypes[extname] || 'application/octet-stream';
@@ -51,11 +101,14 @@ async function serveStatic(req, res) {
     try {
         const content = await fs.readFile(filePath);
         res.writeHead(200, { 'Content-Type': contentType });
-        res.end(content, 'utf-8');
+        res.end(content);
     } catch (error) {
         if (error.code === 'ENOENT') {
             res.writeHead(404);
             res.end('File not found');
+        } else if (error.code === 'EISDIR') {
+            res.writeHead(403);
+            res.end('Cannot serve directory');
         } else {
             res.writeHead(500);
             res.end('Server error: ' + error.code);

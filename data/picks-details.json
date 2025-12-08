@@ -9,17 +9,16 @@
         "alt": "Hotel B Interior"
       },
       {
-        "src": "images/recommendations/hotel-b-1.png", 
+        "src": "images/recommendations/hotel-b-1.png",
         "alt": "Hotel B Room"
       }
     ],
-    "additionalSections": [
-    ]
+    "additionalSections": []
   },
   "hotel-totem-madrid": {
     "customContent": true,
     "heroImage": "images/hotels/totem.webp",
-    "description": "Charming small, nicely designed hotel. THe hotel's lobby and restaurant makes hanging out in the hotel a pleasure. Hotel Totem is located in the heart of Madrid's Salamanca neighborhood, next to great restaurants and shops..",    
+    "description": "Charming small, nicely designed hotel. THe hotel's lobby and restaurant makes hanging out in the hotel a pleasure. Hotel Totem is located in the heart of Madrid's Salamanca neighborhood, next to great restaurants and shops..",
     "galleryImages": [
       {
         "src": "images/recommendations/totem-2.jpg",
@@ -167,5 +166,23 @@
     "showRating": false,
     "showTags": false,
     "showLocation": true
+  },
+  "puqio-1765204296815": {
+    "customContent": true,
+    "headline": "",
+    "description": "In one of the most beautiful valley in the Andes, Puqio is a slow, relaxed, nature-connected set of lovely designed tents that let you connect with your surroundings while keeping comfort and attention to detail. ",
+    "highlights": [],
+    "heroImage": "images/recommendations/1765204863587-12a64696-puqio-3.jpg",
+    "galleryImages": [
+      {
+        "src": "images/recommendations/1765205191813-faa27ac6-puqio-4.jpg",
+        "alt": ""
+      },
+      {
+        "src": "images/recommendations/1765207588779-b37826fa.jpg",
+        "alt": "puqio-2"
+      }
+    ],
+    "additionalSections": []
   }
 }

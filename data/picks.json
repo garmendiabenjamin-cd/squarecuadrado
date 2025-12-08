@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2024-11-21",
+  "lastUpdated": "2025-12-08",
   "picks": [
     {
       "id": "hotel-totem-madrid",
@@ -7,8 +7,15 @@
       "location": "Madrid, Spain",
       "description": "Small beautiful hotel with great modern taste in Salamanca, Madrid.",
       "image": "images/hotels/totem.webp",
-      "categories": ["hotels"],
-      "tags": ["Boutique", "Design", "Central", "Madrid"],
+      "categories": [
+        "hotels"
+      ],
+      "tags": [
+        "Boutique",
+        "Design",
+        "Central",
+        "Madrid"
+      ],
       "orientation": "portrait"
     },
     {
@@ -17,8 +24,13 @@
       "location": "Buenos Aires, Argentina",
       "description": "Stylish, well-designed, five-star hotel in the most charming street of Buenos Aires.",
       "image": "images/hotels/casalucia.png",
-      "categories": ["hotels"],
-      "tags": ["Luxury", "Buenos Aires"],
+      "categories": [
+        "hotels"
+      ],
+      "tags": [
+        "Luxury",
+        "Buenos Aires"
+      ],
       "orientation": "landscape"
     },
     {
@@ -27,8 +39,14 @@
       "location": "Lima, Peru",
       "description": "Boutique hotel in a restored Belle Époque mansion",
       "image": "images/hotels/hotelb.png",
-      "categories": ["hotels"],
-      "tags": ["Boutique", "Historic", "Barranco"],
+      "categories": [
+        "hotels"
+      ],
+      "tags": [
+        "Boutique",
+        "Historic",
+        "Barranco"
+      ],
       "orientation": "portrait"
     },
     {
@@ -37,8 +55,15 @@
       "location": "Buenos Aires, Argentina",
       "description": "Museum restaurant with contemporary Argentine cuisine",
       "image": "images/gallery/landscape/malbarestaurante.jpeg",
-      "categories": ["restaurants", "cafes"],
-      "tags": ["Contemporary", "Museum", "Argentine"],
+      "categories": [
+        "restaurants",
+        "cafes"
+      ],
+      "tags": [
+        "Contemporary",
+        "Museum",
+        "Argentine"
+      ],
       "orientation": "landscape"
     },
     {
@@ -47,18 +72,32 @@
       "location": "International",
       "description": "A high-performance basic t-shirt for running, training, and everyday wear.",
       "image": "images/recommendations/lululemon-model.png",
-      "categories": ["apparel", "wellness-fitness"],
-      "tags": ["Lululemon", "Running", "Performance", "Basic"],
+      "categories": [
+        "apparel",
+        "wellness-fitness"
+      ],
+      "tags": [
+        "Lululemon",
+        "Running",
+        "Performance",
+        "Basic"
+      ],
       "orientation": "portrait"
     },
-    { 
+    {
       "id": "muji-smooth-retractable-gel-pen-0.5-mm",
       "name": "MUJI’s Smooth Retractable Gel Pen ‐ 0.5 mm",
       "location": "International",
       "description": "A smooth retractable gel pen with a 0.5 mm tip. Transparent and timeless design",
       "image": "images/recommendations/mujipen.jpg",
-      "categories": ["accessories"],
-      "tags": ["MUJI", "Gel Pen", "0.5 mm"],
+      "categories": [
+        "accessories"
+      ],
+      "tags": [
+        "MUJI",
+        "Gel Pen",
+        "0.5 mm"
+      ],
       "orientation": "portrait"
     },
     {
@@ -67,8 +106,15 @@
       "location": "London",
       "description": "the best shorts to run a marathon in.",
       "image": "images/recommendations/soar-trail-shorts-3.png",
-      "categories": ["apparel", "wellness-fitness"],
-      "tags": ["soar", "running", "marathon"],
+      "categories": [
+        "apparel",
+        "wellness-fitness"
+      ],
+      "tags": [
+        "soar",
+        "running",
+        "marathon"
+      ],
       "orientation": "portrait"
     },
     {
@@ -77,8 +123,17 @@
       "location": "International",
       "description": "Jean Prouvé's lamp, designed in 1930 for the Cité Universitaire de Nancy, is the perfect light for long nights of work.",
       "image": "images/recommendations/vitra-desk-lamp-2.jpg",
-      "categories": ["design", "accessories"],
-      "tags": ["Vitra", "Jean Prouvé", "Design", "Classic", "Lighting"],
+      "categories": [
+        "design",
+        "accessories"
+      ],
+      "tags": [
+        "Vitra",
+        "Jean Prouvé",
+        "Design",
+        "Classic",
+        "Lighting"
+      ],
       "orientation": "portrait"
     },
     {
@@ -87,8 +142,17 @@
       "location": "International",
       "description": "This versatile lamp gives any room a sense of movement and warmth through its curves, light and use of cotton.",
       "image": "images/recommendations/manto-lamp-1.png",
-      "categories": ["design", "accessories"],
-      "tags": ["Ghezzi + Novak", "Lighting", "Contemporary", "Cotton", "Sculptural"],
+      "categories": [
+        "design",
+        "accessories"
+      ],
+      "tags": [
+        "Ghezzi + Novak",
+        "Lighting",
+        "Contemporary",
+        "Cotton",
+        "Sculptural"
+      ],
       "orientation": "portrait"
     },
     {
@@ -97,9 +161,37 @@
       "location": "International",
       "description": "Provides a beautiful layer for winter and a perfect thing to wear alone over a plain white t-shirt in fall. I have a weakness for this kind of green, as you might start to learn.",
       "image": "images/recommendations/cos-overshirt-1.png",
-      "categories": ["apparel"],
-      "tags": ["COS", "Outerwear", "Wool", "Khaki", "Layering"],
+      "categories": [
+        "apparel"
+      ],
+      "tags": [
+        "COS",
+        "Outerwear",
+        "Wool",
+        "Khaki",
+        "Layering"
+      ],
       "orientation": "portrait"
+    },
+    {
+      "id": "puqio-1765204296815",
+      "name": "Puqio",
+      "location": "Colca Valley, Peru",
+      "description": "Luxurious tents connected to nature in the magical Colca Valley in Arequipa.",
+      "categories": [
+        "hotels"
+      ],
+      "tags": [
+        "Hotel",
+        "Colca",
+        "Arequipa",
+        "Tents",
+        "Glamping",
+        "Puqio"
+      ],
+      "rating": null,
+      "orientation": "portrait",
+      "image": "images/recommendations/1765204863587-12a64696-puqio-3.jpg"
     }
   ]
 }
