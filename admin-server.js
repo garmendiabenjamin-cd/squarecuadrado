@@ -10,6 +10,7 @@ const http = require('http');
 const fs = require('fs').promises;
 const path = require('path');
 const url = require('url');
+const crypto = require('crypto');
 
 const PORT = 8889;
 const PICKS_FILE = path.join(__dirname, 'data', 'picks.json');
@@ -94,7 +95,89 @@ const server = http.createServer(async (req, res) => {
     }
     
     // API Routes
-    if (pathname === '/api/picks' && req.method === 'GET') {
+    if (pathname === '/api/upload' && req.method === 'POST') {
+        // Handle image upload
+        let body = Buffer.alloc(0);
+        
+        req.on('data', chunk => {
+            body = Buffer.concat([body, chunk]);
+        });
+        
+        req.on('end', async () => {
+            try {
+                // Parse multipart form data (simple implementation)
+                const boundary = req.headers['content-type'].split('boundary=')[1];
+                const parts = body.toString('binary').split('--' + boundary);
+                
+                let imageData = null;
+                let filename = null;
+                let uploadType = 'gallery';
+                
+                for (const part of parts) {
+                    if (part.includes('Content-Disposition: form-data')) {
+                        if (part.includes('name="image"')) {
+                            // Extract filename
+                            const filenameMatch = part.match(/filename="([^"]+)"/);
+                            if (filenameMatch) {
+                                const originalName = filenameMatch[1];
+                                const ext = path.extname(originalName).toLowerCase();
+                                
+                                // Generate unique filename
+                                const timestamp = Date.now();
+                                const hash = crypto.randomBytes(4).toString('hex');
+                                filename = `${timestamp}-${hash}${ext}`;
+                            }
+                            
+                            // Extract binary data
+                            const dataStart = part.indexOf('\r\n\r\n') + 4;
+                            const dataEnd = part.lastIndexOf('\r\n');
+                            if (dataStart > 3 && dataEnd > dataStart) {
+                                imageData = Buffer.from(part.substring(dataStart, dataEnd), 'binary');
+                            }
+                        } else if (part.includes('name="type"')) {
+                            const typeMatch = part.match(/\r\n\r\n([^\r\n]+)/);
+                            if (typeMatch) {
+                                uploadType = typeMatch[1].trim();
+                            }
+                        }
+                    }
+                }
+                
+                if (imageData && filename) {
+                    // Determine folder based on type
+                    const folder = uploadType === 'hero' ? 'images/hotels' : 'images/recommendations';
+                    const uploadDir = path.join(__dirname, folder);
+                    
+                    // Ensure directory exists
+                    try {
+                        await fs.mkdir(uploadDir, { recursive: true });
+                    } catch (e) {
+                        // Directory might already exist
+                    }
+                    
+                    // Save file
+                    const filepath = path.join(uploadDir, filename);
+                    await fs.writeFile(filepath, imageData);
+                    
+                    // Return the relative path
+                    const relativePath = `${folder}/${filename}`;
+                    
+                    sendJSON(res, { 
+                        success: true, 
+                        path: relativePath,
+                        filename: filename 
+                    });
+                } else {
+                    sendJSON(res, { error: 'No image data received' }, 400);
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                sendJSON(res, { error: 'Failed to upload image: ' + error.message }, 500);
+            }
+        });
+        return;
+    }
+    else if (pathname === '/api/picks' && req.method === 'GET') {
         // Get all picks
         try {
             const data = await fs.readFile(PICKS_FILE, 'utf-8');
